@@ -1,0 +1,9 @@
+# Scratch & temporary files
+ugctank_analysis.txt
+ugctank_page_decompiled.txt
+main.tex
+about.png
+
+# OS metadata
+.DS_Store
+Thumbs.db

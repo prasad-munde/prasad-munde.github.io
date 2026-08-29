@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prasad Munde</title>
+  <meta name="description" content="Personal portfolio of Prasad Munde — Software Engineer.">
+  
+  <!-- Fontshare Satoshi Font -->
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,301,400,401,500,501,700,701,900,901&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Subtle Ambient Glow -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <!-- Sleek Header Navigation -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <div class="brand-area">
+        <a href="#hero" class="logo" id="header-logo">prsd</a>
+      </div>
+
+      <nav class="nav-links" id="main-nav">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Theme Switcher -->
+        <button class="icon-btn theme-toggle" id="theme-toggle" type="button" title="Toggle Theme (Dark / Light)" aria-label="Toggle Theme">
+          <svg class="icon-svg sun-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2"></path>
+            <path d="M12 20v2"></path>
+            <path d="m4.93 4.93 1.41 1.41"></path>
+            <path d="m17.66 17.66 1.41 1.41"></path>
+            <path d="M2 12h2"></path>
+            <path d="M20 12h2"></path>
+            <path d="m6.34 17.66-1.41 1.41"></path>
+            <path d="m19.07 4.93-1.41 1.41"></path>
+          </svg>
+          <svg class="icon-svg moon-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+          </svg>
+        </button>
+
+        <!-- Command Palette Trigger -->
+        <button class="icon-btn cmd-trigger" id="cmd-trigger" title="Command Palette (Ctrl+K)">
+          <span class="cmd-badge">⌘K</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Full Page Drawing Canvas Layer -->
+  <canvas id="draw-canvas"></canvas>
+
+  <!-- Floating Drawing Canvas Toolbar -->
+  <aside class="draw-toolbar" id="draw-toolbar" aria-label="Interactive Scratchpad">
+    <button class="draw-toggle-btn" id="toggle-draw-btn" type="button" title="Toggle Scratchpad (Click to draw on page)">
+      <i data-lucide="pen-tool" class="icon-xs"></i>
+      <span id="draw-btn-label">Scratchpad</span>
+    </button>
+    
+    <div class="draw-controls" id="draw-controls">
+      <!-- Colors -->
+      <div class="draw-colors">
+        <button class="color-dot active" data-color="#2563eb" style="--dot-color: #2563eb;" title="Cobalt Blue" type="button"></button>
+        <button class="color-dot" data-color="#38bdf8" style="--dot-color: #38bdf8;" title="Cyan" type="button"></button>
+        <button class="color-dot" data-color="#f43f5e" style="--dot-color: #f43f5e;" title="Rose Red" type="button"></button>
+        <button class="color-dot" data-color="#10b981" style="--dot-color: #10b981;" title="Emerald" type="button"></button>
+        <button class="color-dot" data-color="#a855f7" style="--dot-color: #a855f7;" title="Purple" type="button"></button>
+        <button class="color-dot" data-color="#0f172a" style="--dot-color: #0f172a;" title="Dark" type="button"></button>
+      </div>
+
+      <div class="draw-divider"></div>
+
+      <!-- Brush sizes -->
+      <div class="draw-sizes">
+        <button class="size-btn active" data-size="3" title="Thin Brush" type="button">S</button>
+        <button class="size-btn" data-size="6" title="Medium Brush" type="button">M</button>
+        <button class="size-btn" data-size="12" title="Thick Brush" type="button">L</button>
+      </div>
+
+      <div class="draw-divider"></div>
+
+      <!-- Action buttons -->
+      <button class="draw-action-btn" id="draw-eraser-btn" title="Eraser" type="button">
+        <i data-lucide="eraser" class="icon-xs"></i>
+      </button>
+      <button class="draw-action-btn" id="draw-clear-btn" title="Clear Canvas" type="button">
+        <i data-lucide="trash-2" class="icon-xs"></i>
+      </button>
+      <button class="draw-action-btn" id="draw-download-btn" title="Save Drawing" type="button">
+        <i data-lucide="download" class="icon-xs"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Container -->
+  <main class="main-container">
+
+    <!-- Hero Section with Tilted Square Photo Beside Content -->
+    <section id="hero" class="hero-section">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <h1 class="hero-title" id="hero-name">Prasad Munde</h1>
+          <p class="hero-tagline" id="hero-tagline">learning / building / working</p>
+          
+          <p class="hero-bio" id="hero-bio">
+            I love solving problems, building cool things, consuming great ideas, and constantly learning new stuff. Right now, I'm focused on learning and building software around AI and backend systems.
+          </p>
+
+          <div class="hero-actions">
+            <a href="./PrasadMunde_CV.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg" id="hero-resume-btn">
+              <span>Resume</span>
+              <i data-lucide="arrow-up-right" class="icon-sm"></i>
+            </a>
+            <a href="https://github.com/prasad-munde" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-lg">
+              <svg class="icon-sm" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+                <path d="M9 18c-4.51 2-5-2-7-2"></path>
+              </svg>
+              <span>GitHub</span>
+            </a>
+            <a href="#contact" class="btn btn-secondary btn-lg">
+              <span>Get in Touch</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Tilted Square Photo Card with Rounded Corners -->
+        <div class="hero-photo-wrapper">
+          <div class="hero-photo-card glass-card" id="avatar-card">
+            <div class="hero-photo-box" id="avatar-sphere">
+              <div class="hero-photo-inner">
+                <img src="./prasadphoto.jpg" alt="Prasad Munde" class="hero-img" id="hero-avatar-img" onerror="this.style.display='none'; document.getElementById('avatar-label').style.display='flex';">
+                <span class="avatar-placeholder-text" id="avatar-label" style="display: none;">PM</span>
+              </div>
+            </div>
+            <div class="hero-photo-caption">
+              <h4 class="avatar-name" id="avatar-name">Prasad Munde</h4>
+              <p class="avatar-role">learning / building / working</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">About Me</h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-card glass-card" id="about-bio-container">
+          <p class="about-p">
+            I've been hooked on computers since childhood—it all started with curiosity about how video games were made and how software connects people across the world.
+          </p>
+          <p class="about-p">
+            Today, that curiosity has grown into building robust backend architectures, exploring intelligent systems, and tackling problems that keep me happily glued to my screen for hours.
+          </p>
+        </div>
+
+        <!-- Education Card -->
+        <div class="edu-card glass-card" id="edu-card">
+          <div class="edu-top">
+            <span class="edu-inst">Indira College of Engineering and Management</span>
+            <span class="edu-years">2023 — 2027</span>
+          </div>
+          <div class="edu-deg">Bachelor of Engineering in Artificial Intelligence & Data Science</div>
+          <div class="edu-foot">
+            <span class="badge-highlight">CGPA: 8.48 / 10</span>
+            <span class="edu-loc"><i data-lucide="map-pin" class="icon-xs"></i> Pune, India</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Experience</h2>
+      </div>
+
+      <div class="experience-list" id="experience-list">
+        <div class="experience-card glass-card">
+          <div class="exp-top-row">
+            <div class="exp-role-wrap">
+              <h3 class="exp-title">AI Intern</h3>
+              <div class="exp-company-link">
+                <span>Diebold Nixdorf</span>
+                <span class="dot-sep">&bull;</span>
+                <span class="exp-loc">Mumbai, India</span>
+              </div>
+            </div>
+            <div class="exp-period-badge">Jun 2025 — Oct 2025</div>
+          </div>
+
+          <div class="exp-body">
+            <ul class="styled-list">
+              <li>
+                <div class="list-bullet"></div>
+                <div>Adapted and refactored an <strong>open-source</strong> system for enterprise use, improving <strong>modularity</strong> and <strong>maintainability</strong>.</div>
+              </li>
+              <li>
+                <div class="list-bullet"></div>
+                <div>Designed and developed a modular <strong>Retrieval-Augmented Generation (RAG)</strong> system supporting multiple <strong>LLM</strong> backends.</div>
+              </li>
+              <li>
+                <div class="list-bullet"></div>
+                <div>Developed and integrated a <strong>MobileNetV2</strong>-based UI classification system (<strong>90% accuracy</strong>) into backend decision workflows.</div>
+              </li>
+              <li>
+                <div class="list-bullet"></div>
+                <div>Fine-tuned <strong>language models</strong> using <strong>PEFT (LoRA)</strong>, improving domain-specific instruction accuracy by <strong>20–25%</strong>.</div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="exp-stack-row">
+            <span class="tech-tag">RAG</span>
+            <span class="tech-tag">PEFT / LoRA</span>
+            <span class="tech-tag">MobileNetV2</span>
+            <span class="tech-tag">LLMs</span>
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">FastAPI</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section-container">
+      <div class="section-header projects-header-row">
+        <h2 class="section-title">Projects</h2>
+        
+        <!-- Filter Pills -->
+        <div class="filter-group">
+          <button class="filter-pill active" data-filter="all">All</button>
+          <button class="filter-pill" data-filter="ai">AI / Agents</button>
+          <button class="filter-pill" data-filter="backend">Backend & DB</button>
+        </div>
+      </div>
+
+      <div class="projects-grid" id="projects-grid">
+        
+        <!-- Project 1: Krecon -->
+        <div class="project-card glass-card" data-category="ai backend">
+          <div class="project-header">
+            <div class="project-title-wrap">
+              <h3 class="project-name">Krecon</h3>
+              <span class="project-timeline">2026 — Present</span>
+            </div>
+            <a href="https://github.com/prasad-munde/kryco" target="_blank" rel="noopener noreferrer" class="repo-link" title="View Source">
+              <svg class="icon-sm" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+              <span>Source</span>
+              <i data-lucide="arrow-up-right" class="icon-xs"></i>
+            </a>
+          </div>
+
+          <p class="project-description">
+            An AI-powered creator collaboration platform featuring autonomous multi-agent pipelines for campaign briefing, semantic discovery, and creator ranking.
+          </p>
+
+          <ul class="styled-list">
+            <li>
+              <div class="list-bullet"></div>
+              <div>Built modular AI agents for campaign briefing, semantic creator discovery, and creator ranking.</div>
+            </li>
+            <li>
+              <div class="list-bullet"></div>
+              <div>Developed RESTful backend services using FastAPI, PostgreSQL, and SQLAlchemy with JWT authentication and bcrypt hashing.</div>
+            </li>
+            <li>
+              <div class="list-bullet"></div>
+              <div>Implemented semantic creator discovery using Sentence Transformers, Milvus, and LangChain, followed by Gemini-based creator ranking with Pydantic structured outputs.</div>
+            </li>
+            <li>
+              <div class="list-bullet"></div>
+              <div>Engineered a LangGraph-based multi-agent workflow and integrated LangSmith for tracing AI pipelines with Docker containerization.</div>
+            </li>
+          </ul>
+
+          <div class="project-tags">
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">Milvus</span>
+            <span class="tech-tag">LangChain</span>
+            <span class="tech-tag">Gemini</span>
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">LangGraph</span>
+          </div>
+        </div>
+
+        <!-- Project 2: IndiraGPT -->
+        <div class="project-card glass-card" data-category="ai backend">
+          <div class="project-header">
+            <div class="project-title-wrap">
+              <h3 class="project-name">IndiraGPT</h3>
+              <span class="project-timeline">2025</span>
+            </div>
+            <a href="https://github.com/prasad-munde/InstituteAI" target="_blank" rel="noopener noreferrer" class="repo-link" title="View Source">
+              <svg class="icon-sm" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+              <span>Source</span>
+              <i data-lucide="arrow-up-right" class="icon-xs"></i>
+            </a>
+          </div>
+
+          <p class="project-description">
+            An AI-powered campus help desk chatbot using advanced RAG to accurately answer college queries and index multi-modal data.
+          </p>
+
+          <ul class="styled-list">
+            <li>
+              <div class="list-bullet"></div>
+              <div>Built an AI-powered help desk chatbot using RAG to answer college-related queries.</div>
+            </li>
+            <li>
+              <div class="list-bullet"></div>
+              <div>Designed a multi-stage crawler to index HTML, PDFs, and image metadata for retrieval.</div>
+            </li>
+            <li>
+              <div class="list-bullet"></div>
+              <div>Optimized chunking and retrieval across 1,500+ chunks, reducing hallucinations by 40% in manual QA.</div>
+            </li>
+          </ul>
+
+          <div class="project-tags">
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">ChromaDB</span>
+            <span class="tech-tag">LLaMA 3.3</span>
+            <span class="tech-tag">Sentence Transformers</span>
+            <span class="tech-tag">RAG</span>
+          </div>
+        </div>
+
+        <!-- Project 3: URL Shortener -->
+        <div class="project-card glass-card" data-category="backend">
+          <div class="project-header">
+            <div class="project-title-wrap">
+              <h3 class="project-name">URL Shortener API</h3>
+              <span class="project-timeline">2026</span>
+            </div>
+            <a href="https://github.com/prasad-munde/urlshort" target="_blank" rel="noopener noreferrer" class="repo-link" title="View Source">
+              <svg class="icon-sm" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+              <span>Source</span>
+              <i data-lucide="arrow-up-right" class="icon-xs"></i>
+            </a>
+          </div>
+
+          <p class="project-description">
+            High-performance URL shortening and redirection API with Redis caching, IP rate limiting, and Docker containerization.
+          </p>
+
+          <ul class="styled-list">
+            <li>
+              <div class="list-bullet"></div>
+              <div>Built a URL shortening API using FastAPI, PostgreSQL, and SQLAlchemy with validation, expiration, and unique short codes.</div>
+            </li>
+            <li>
+              <div class="list-bullet"></div>
+              <div>Implemented Redis caching and rate limiting, reducing redirect latency by approximately 40% and limiting clients to 100 requests/minute; containerized with Docker Compose.</div>
+            </li>
+          </ul>
+
+          <div class="project-tags">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">Redis</span>
+            <span class="tech-tag">SQLAlchemy</span>
+            <span class="tech-tag">Docker</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Skills</h2>
+      </div>
+
+      <div class="skills-matrix" id="skills-matrix">
+        <div class="skill-box glass-card">
+          <div class="skill-box-header">
+            <i data-lucide="code-2" class="icon-sm skill-icon"></i>
+            <h3 class="skill-category-name">Languages</h3>
+          </div>
+          <div class="skill-pill-list">
+            <span class="skill-badge">Python</span>
+            <span class="skill-badge">Java</span>
+            <span class="skill-badge">C++</span>
+            <span class="skill-badge">SQL</span>
+            <span class="skill-badge">JavaScript</span>
+          </div>
+        </div>
+
+        <div class="skill-box glass-card">
+          <div class="skill-box-header">
+            <i data-lucide="layers" class="icon-sm skill-icon"></i>
+            <h3 class="skill-category-name">Frameworks & Backend</h3>
+          </div>
+          <div class="skill-pill-list">
+            <span class="skill-badge">FastAPI</span>
+            <span class="skill-badge">Flask</span>
+            <span class="skill-badge">SQLAlchemy</span>
+            <span class="skill-badge">REST APIs</span>
+            <span class="skill-badge">JWT Auth</span>
+          </div>
+        </div>
+
+        <div class="skill-box glass-card">
+          <div class="skill-box-header">
+            <i data-lucide="database" class="icon-sm skill-icon"></i>
+            <h3 class="skill-category-name">Databases & Storage</h3>
+          </div>
+          <div class="skill-pill-list">
+            <span class="skill-badge">PostgreSQL</span>
+            <span class="skill-badge">Redis</span>
+            <span class="skill-badge">Milvus</span>
+            <span class="skill-badge">ChromaDB</span>
+            <span class="skill-badge">MongoDB</span>
+            <span class="skill-badge">MySQL</span>
+          </div>
+        </div>
+
+        <div class="skill-box glass-card">
+          <div class="skill-box-header">
+            <i data-lucide="bot" class="icon-sm skill-icon"></i>
+            <h3 class="skill-category-name">AI / ML & Agents</h3>
+          </div>
+          <div class="skill-pill-list">
+            <span class="skill-badge">LangGraph</span>
+            <span class="skill-badge">LangChain</span>
+            <span class="skill-badge">RAG Systems</span>
+            <span class="skill-badge">PEFT / LoRA</span>
+            <span class="skill-badge">Sentence Transformers</span>
+            <span class="skill-badge">TensorFlow</span>
+            <span class="skill-badge">MCP</span>
+          </div>
+        </div>
+
+        <div class="skill-box glass-card">
+          <div class="skill-box-header">
+            <i data-lucide="terminal" class="icon-sm skill-icon"></i>
+            <h3 class="skill-category-name">Developer Tools & DevOps</h3>
+          </div>
+          <div class="skill-pill-list">
+            <span class="skill-badge">Docker</span>
+            <span class="skill-badge">Docker Compose</span>
+            <span class="skill-badge">Git & GitHub</span>
+            <span class="skill-badge">Linux</span>
+            <span class="skill-badge">AWS S3</span>
+            <span class="skill-badge">LangSmith</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section class="section-container" id="certifications">
+      <div class="section-header">
+        <h2 class="section-title">Certifications</h2>
+      </div>
+
+      <div class="certs-grid" id="certs-grid">
+        <div class="cert-card glass-card">
+          <div class="cert-icon-wrap">
+            <i data-lucide="award" class="icon-md cert-badge-icon"></i>
+          </div>
+          <div class="cert-details">
+            <h3 class="cert-title">Oracle Certified Professional: Agentic AI Foundations Associate (1Z0-1157-26)</h3>
+            <span class="cert-issuer">Oracle</span>
+          </div>
+          <a href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=EFB731DC1336F12810FFA6EB67772535A7FB834CFEA18247F6ADF07A59F6B0EC" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" title="Verify">
+            <span>Verify</span>
+            <i data-lucide="external-link" class="icon-xs"></i>
+          </a>
+        </div>
+
+        <div class="cert-card glass-card">
+          <div class="cert-icon-wrap">
+            <i data-lucide="award" class="icon-md cert-badge-icon"></i>
+          </div>
+          <div class="cert-details">
+            <h3 class="cert-title">Machine Learning Specialization</h3>
+            <span class="cert-issuer">Andrew Ng • Stanford Online / Coursera</span>
+          </div>
+          <a href="https://www.coursera.org/account/accomplishments/records/1W3RJ1DPTF9G" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" title="Verify">
+            <span>Verify</span>
+            <i data-lucide="external-link" class="icon-xs"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="cta-section">
+      <div class="cta-card glass-card">
+        <div class="cta-content">
+          <h2 class="cta-title">Let's connect.</h2>
+          <p class="cta-sub">
+            I would love to discus my cool ideas with u xD
+          </p>
+
+          <div class="cta-buttons">
+            <a href="mailto:prasadmunde999@gmail.com" class="btn btn-primary btn-lg" id="contact-email-link">
+              <i data-lucide="mail" class="icon-sm"></i>
+              <span id="contact-email-text">prasadmunde999@gmail.com</span>
+            </a>
+            <a href="./PrasadMunde_CV.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-lg" id="contact-resume-btn">
+              <i data-lucide="download" class="icon-sm"></i>
+              <span>Download CV (PDF)</span>
+            </a>
+          </div>
+
+          <div class="cta-socials" id="contact-socials">
+            <a href="https://github.com/prasad-munde" target="_blank" rel="noopener noreferrer" class="cta-social-link">
+              <svg class="icon-sm" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+                <path d="M9 18c-4.51 2-5-2-7-2"></path>
+              </svg>
+              <span>github.com/prasad-munde</span>
+            </a>
+            <a href="https://www.linkedin.com/in/prasadmunde/" target="_blank" rel="noopener noreferrer" class="cta-social-link">
+              <i data-lucide="linkedin" class="icon-sm"></i>
+              <span>linkedin.com/in/prasadmunde</span>
+            </a>
+            <a href="https://leetcode.com/_prasadmunde_/" target="_blank" rel="noopener noreferrer" class="cta-social-link">
+              <i data-lucide="code" class="icon-sm"></i>
+              <span>leetcode.com/_prasadmunde_</span>
+            </a>
+            <a href="https://x.com/__prsd__" target="_blank" rel="noopener noreferrer" class="cta-social-link">
+              <svg class="icon-sm" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+              </svg>
+              <span>x.com/__prsd__</span>
+            </a>
+            <a href="https://www.instagram.com/_prasadmunde_/" target="_blank" rel="noopener noreferrer" class="cta-social-link">
+              <svg class="icon-sm" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+              </svg>
+              <span>instagram.com/_prasadmunde_</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Clean Minimal Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="footer-logo">prsd</span>
+        <span class="footer-copy">&copy; 2026 Prasad Munde</span>
+      </div>
+
+      <div class="footer-right">
+        <a href="#hero" class="back-to-top" id="back-to-top">
+          <span>Back to top</span>
+          <i data-lucide="arrow-up" class="icon-xs"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Terminal / Command Palette Modal -->
+  <div class="cmd-modal-backdrop" id="cmd-modal">
+    <div class="cmd-modal-window">
+      <div class="cmd-header">
+        <div class="cmd-title-bar">
+          <span class="cmd-dot red"></span>
+          <span class="cmd-dot yellow"></span>
+          <span class="cmd-dot green"></span>
+          <span class="cmd-name">prsd@portfolio: ~</span>
+        </div>
+        <button class="cmd-close" id="cmd-close">&times;</button>
+      </div>
+      <div class="cmd-body" id="cmd-output">
+        <div class="cmd-line system-msg">Welcome to Prasad's terminal. Type <span class="cmd-highlight">help</span> or click a command:</div>
+        <div class="cmd-suggestions">
+          <button class="cmd-chip" data-cmd="skills">skills</button>
+          <button class="cmd-chip" data-cmd="projects">projects</button>
+          <button class="cmd-chip" data-cmd="experience">experience</button>
+          <button class="cmd-chip" data-cmd="contact">contact</button>
+          <button class="cmd-chip" data-cmd="cv">cv</button>
+          <button class="cmd-chip" data-cmd="theme">theme</button>
+          <button class="cmd-chip" data-cmd="clear">clear</button>
+        </div>
+      </div>
+      <div class="cmd-input-row">
+        <span class="cmd-prompt">&gt;</span>
+        <input type="text" id="cmd-input" placeholder="Type a command (help, skills, projects, cv, contact)..." autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">Action completed!</div>
+
+  <!-- 1. Load Data Config First -->
+  <script src="data.js"></script>
+  <!-- 2. Load App Renderer & Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
