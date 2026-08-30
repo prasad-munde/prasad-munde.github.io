@@ -53,10 +53,12 @@ var PORTFOLIO_DATA = {
       location: "Mumbai, India",
       period: "Jun 2025 — Oct 2025",
       bullets: [
-        "Adapted and refactored an open-source system for enterprise use, improving modularity and maintainability.",
-        "Designed and developed a modular Retrieval-Augmented Generation (RAG) system supporting multiple LLM backends.",
+        "Designed and deployed RAG-based enterprise knowledge retrieval applications on Azure, cutting average time to find internal documentation by 40% compared to manual search.",
         "Developed and integrated a MobileNetV2-based UI classification system (90% accuracy) into backend decision workflows.",
-        "Fine-tuned language models using PEFT (LoRA), improving domain-specific instruction accuracy by 20–25%."
+        "Fine-tuned LLM’s using PEFT (LoRA), improving domain-specific instruction accuracy by 20–25%.",
+        "Deployed and monitored production AI applications using Langfuse for observability, prompt tracing, and response evaluation.",
+        "Built MCP servers integrating GitHub Copilot with Jira, Confluence, Bitbucket, SonarQube, and BlackDuck."
+        
       ],
       tech: ["RAG", "PEFT / LoRA", "MobileNetV2", "LLMs", "Python", "FastAPI"]
     }
