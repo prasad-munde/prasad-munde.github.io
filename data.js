@@ -82,6 +82,31 @@ var PORTFOLIO_DATA = {
       githubUrl: "https://github.com/prasad-munde/kryco"
     },
     {
+      id: "billflow",
+      title: "BillFlow",
+      category: "full stack",
+      period: "2026",    
+      description:
+        "A full-stack invoicing and billing platform with secure authentication, client management, invoice workflows, public payment links, analytics, and an AI-powered assistant.",    
+      bullets: [
+        "Built a production-ready invoicing platform with Next.js, TypeScript, FastAPI, PostgreSQL, and JWT-based authentication.",    
+        "Developed complete client and invoice management workflows with server-side search, filtering, sorting, tax/discount calculations, status tracking, and automatic overdue handling.",    
+        "Implemented secure public invoice sharing and simulated payment flows, along with printable/PDF-ready invoice views and responsive dashboard analytics.",    
+        "Integrated an AI assistant and designed the backend with modular API architecture, database migrations, seed data, strict user data isolation, and deployment-ready configuration."
+      ],    
+      tech: [
+        "Next.js",
+        "TypeScript",
+        "FastAPI",
+        "PostgreSQL",
+        "JWT",
+        "Tailwind CSS",
+        "Recharts",
+        "AI"
+      ],    
+      githubUrl: "https://github.com/prasad-munde/billflow"
+    },
+    {
       id: "indiragpt",
       title: "IndiraGPT",
       category: "ai backend",
