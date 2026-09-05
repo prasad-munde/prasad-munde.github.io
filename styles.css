@@ -216,9 +216,9 @@ body {
    Main Container & Sections
    ========================================================================== */
 .main-container {
-  max-width: 1200px;
+  max-width: 680px;
   margin: 0 auto;
-  padding: 2rem 2rem 5rem 2rem;
+  padding: 2rem 1.25rem 6rem 1.25rem;
   position: relative;
   z-index: 1;
 }
@@ -340,13 +340,13 @@ body {
    ========================================================================== */
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
   align-items: stretch;
 }
 
 .about-card, .edu-card {
-  padding: 2.25rem;
+  padding: 1.85rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -561,7 +561,7 @@ body.draw-mode-active #draw-canvas {
 }
 
 .experience-card {
-  padding: 2.25rem;
+  padding: 1.85rem;
 }
 
 .exp-top-row {
@@ -700,7 +700,7 @@ body.draw-mode-active #draw-canvas {
 }
 
 .project-card {
-  padding: 2.25rem;
+  padding: 1.85rem;
   transition: all var(--transition-smooth);
 }
 
@@ -846,8 +846,8 @@ body.draw-mode-active #draw-canvas {
    ========================================================================== */
 .certs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
 }
 
 .cert-card {
@@ -895,7 +895,7 @@ body.draw-mode-active #draw-canvas {
 }
 
 .cta-card {
-  padding: 3.5rem 2.5rem;
+  padding: 3rem 1.85rem;
   text-align: center;
   border: 1px solid var(--border-hover);
 }
