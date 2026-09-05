@@ -91,6 +91,22 @@
       <div class="hero-content">
         <h1 class="hero-title" id="hero-name">Prasad Munde</h1>
         <p class="hero-tagline" id="hero-tagline">learning / building / working</p>
+
+        <!-- 3D Interactive Velvet Burgundy Cube with Fluid Splashes -->
+        <div class="cube-stage-wrapper" id="cube-stage-wrapper">
+          <canvas class="cube-splash-canvas" id="cube-splash-canvas"></canvas>
+          <div class="cube-scene" id="cube-scene" title="Drag or hover to rotate & splash velvet burgundy water">
+            <div class="cube-3d" id="cube-3d">
+              <div class="cube-face cube-face--front"><span>PM</span></div>
+              <div class="cube-face cube-face--back"><span>AI</span></div>
+              <div class="cube-face cube-face--right"><span>SYS</span></div>
+              <div class="cube-face cube-face--left"><span>DEV</span></div>
+              <div class="cube-face cube-face--top"><span>&lt;/&gt;</span></div>
+              <div class="cube-face cube-face--bottom"><span>⚡</span></div>
+            </div>
+          </div>
+          <span class="cube-hint">✦ drag or spin to splash</span>
+        </div>
         
         <p class="hero-bio" id="hero-bio">
           I love solving problems, building cool things, consuming great ideas, and constantly learning new stuff. Right now, I'm focused on learning and building software around AI and backend systems.
@@ -114,6 +130,15 @@
         </div>
       </div>
     </section>
+
+    <!-- Horizontal Infinite Scrolling Bar: Tools & Technologies -->
+    <div class="tech-marquee-section" aria-label="Tools & Technologies">
+      <div class="marquee-track-wrap">
+        <div class="marquee-track" id="tech-marquee-track">
+          <!-- Rendered dynamically from tools and technologies in data.js -->
+        </div>
+      </div>
+    </div>
 
     <!-- About Section -->
     <section id="about" class="section-container">
