@@ -162,7 +162,7 @@ body {
 }
 
 /* ==========================================================================
-   Buttons
+   Buttons (Rectangle Rounded Corners)
    ========================================================================== */
 .btn {
   display: inline-flex;
@@ -172,14 +172,14 @@ body {
   font-family: var(--font-satoshi);
   font-weight: 600;
   text-decoration: none;
-  border-radius: var(--radius-full);
+  border-radius: 12px;
   cursor: pointer;
   transition: all var(--transition-fast);
   border: 1px solid transparent;
 }
 
-.btn-sm { padding: 0.4rem 0.95rem; font-size: 0.82rem; }
-.btn-lg { padding: 0.75rem 1.6rem; font-size: 0.95rem; }
+.btn-sm { padding: 0.45rem 1rem; font-size: 0.82rem; border-radius: 10px; }
+.btn-lg { padding: 0.75rem 1.6rem; font-size: 0.95rem; border-radius: 12px; }
 
 .btn-primary {
   background-color: var(--btn-primary-bg);
@@ -276,133 +276,60 @@ body {
 }
 
 /* ==========================================================================
-   Hero Section & Tilted Square Photo
+   Hero Section (Centered Minimalist)
    ========================================================================== */
 .hero-section {
-  padding: 3.5rem 0 5rem 0;
+  padding: 5rem 0 6rem 0;
   margin-bottom: 6.5rem;
   scroll-margin-top: 5rem;
-}
-
-.hero-grid {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 3.5rem;
+  display: flex;
+  justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .hero-content {
-  max-width: 680px;
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .hero-title {
-  font-size: 3.4rem;
+  font-size: 3.8rem;
   font-weight: 900;
   letter-spacing: -0.04em;
-  line-height: 1.12;
+  line-height: 1.1;
   margin-bottom: 0.85rem;
+  text-align: center;
 }
 
 .hero-tagline {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 500;
   color: var(--text-muted);
   letter-spacing: 0.02em;
-  margin-bottom: 1.65rem;
+  margin-bottom: 1.75rem;
+  text-align: center;
 }
 
 .hero-bio {
-  font-size: 1.1rem;
-  line-height: 1.7;
+  font-size: 1.15rem;
+  line-height: 1.75;
   color: var(--text-secondary);
-  margin-bottom: 2.25rem;
+  margin-bottom: 2.5rem;
+  max-width: 680px;
+  text-align: center;
 }
 
 .hero-actions {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
-}
-
-/* Hero Photo Card (Square with Rounded Corners & Tilted) */
-.hero-photo-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  perspective: 1000px;
-}
-
-.hero-photo-card {
-  padding: 1.25rem;
-  border-radius: 28px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-  transform: rotate(-3.5deg);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
-  cursor: pointer;
-}
-
-.hero-photo-card:hover {
-  transform: rotate(0deg) scale(1.03) translateY(-6px);
-  border-color: var(--border-hover);
-  box-shadow: 0 28px 56px rgba(0, 0, 0, 0.14);
-}
-
-.hero-photo-box {
-  width: 270px;
-  height: 270px;
-  border-radius: 20px;
-  overflow: hidden;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  position: relative;
-}
-
-.hero-photo-inner {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.hero-photo-card:hover .hero-img {
-  transform: scale(1.05);
-}
-
-.hero-photo-caption {
-  margin-top: 1rem;
-  text-align: center;
-}
-
-.hero-photo-caption .avatar-name {
-  font-size: 1.15rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.2rem;
-}
-
-.hero-photo-caption .avatar-role {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-}
-
-.avatar-placeholder-text {
-  font-size: 2.5rem;
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  color: var(--text-main);
 }
 
 /* ==========================================================================

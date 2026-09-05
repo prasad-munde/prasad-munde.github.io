@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 4. Initialize Interactive Features
   initSpotlight();
-  initAvatar3D();
   initProjectFilters();
   initNavObserver();
   initDrawingCanvas();
@@ -38,15 +37,11 @@ function renderHero(profile) {
   const nameEl = document.getElementById('hero-name');
   const taglineEl = document.getElementById('hero-tagline');
   const bioEl = document.getElementById('hero-bio');
-  const avatarName = document.getElementById('avatar-name');
   const aboutBioContainer = document.getElementById('about-bio-container');
-  const heroImg = document.getElementById('hero-avatar-img');
-  const avatarLabel = document.getElementById('avatar-label');
 
   if (nameEl && profile.name) nameEl.textContent = profile.name;
   if (taglineEl && profile.tagline) taglineEl.textContent = profile.tagline;
   if (bioEl && profile.shortBio) bioEl.textContent = profile.shortBio;
-  if (avatarName && profile.name) avatarName.textContent = profile.name;
 
   if (aboutBioContainer) {
     if (Array.isArray(profile.aboutBio)) {
@@ -59,12 +54,6 @@ function renderHero(profile) {
   const heroResumeBtn = document.getElementById('hero-resume-btn');
   if (heroResumeBtn && profile.resumeUrl) {
     heroResumeBtn.href = profile.resumeUrl;
-  }
-
-  if (profile.avatarUrl && heroImg) {
-    heroImg.src = profile.avatarUrl;
-    heroImg.style.display = 'block';
-    if (avatarLabel) avatarLabel.style.display = 'none';
   }
 }
 
@@ -258,24 +247,6 @@ function initSpotlight() {
       card.style.setProperty('--mouse-x', `${x}px`);
       card.style.setProperty('--mouse-y', `${y}px`);
     });
-  });
-}
-
-function initAvatar3D() {
-  const avatarCard = document.getElementById('avatar-card');
-  if (!avatarCard) return;
-
-  avatarCard.addEventListener('mousemove', (e) => {
-    const rect = avatarCard.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    const rotateX = -(y / rect.height) * 16;
-    const rotateY = (x / rect.width) * 16;
-    avatarCard.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03) translateY(-4px)`;
-  });
-
-  avatarCard.addEventListener('mouseleave', () => {
-    avatarCard.style.transform = 'rotate(-3.5deg)';
   });
 }
 

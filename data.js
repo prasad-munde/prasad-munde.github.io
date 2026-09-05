@@ -26,7 +26,7 @@ var PORTFOLIO_DATA = {
     email: "prasadmunde999@gmail.com",
     phone: "+91 7499529089",
     resumeUrl: "./PrasadMunde__CV.pdf",
-    avatarUrl: "prasadphoto.jpg", // Set to your photo path e.g. "./photo.jpg" or leave "" for sleek monogram PM
+    avatarUrl: "", // Set to your photo path e.g. "./photo.jpg" or leave "" for sleek monogram PM
     socials: {
       github: "https://github.com/prasad-munde",
       linkedin: "https://www.linkedin.com/in/prasadmunde/",
