@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavObserver();
   initDrawingCanvas();
   initTechMarquee(data);
-  init3DSphere();
+  initEarthCube();
 });
 
 /* ==========================================================================
@@ -682,41 +682,39 @@ function initTechMarquee(data) {
 }
 
 /* ==========================================================================
-   3D Rotating Ball (Sphere) Engine with "Hi! i am Prasad"
+   3D Interactive Earth Cube Controller (Drag Rotation + Gentle Auto-Orbit)
    ========================================================================== */
-function init3DSphere() {
-  const canvas = document.getElementById('sphere-canvas');
-  if (!canvas) return;
+function initEarthCube() {
+  const scene = document.getElementById('cube-scene');
+  const cube = document.getElementById('cube-3d');
+  if (!cube || !scene) return;
 
-  const ctx = canvas.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
-  const size = 140;
-  canvas.width = size * dpr;
-  canvas.height = size * dpr;
-  ctx.scale(dpr, dpr);
-
-  const centerX = size / 2;
-  const centerY = size / 2;
-  const sphereRadius = 46;
-  const textRadius = 47.5;
-
-  let rotY = 0;
+  // Initial tilt & rotation
+  let rotX = -18;
+  let rotY = 32;
+  let velX = 0;
   let velY = 0;
   let isDragging = false;
   let lastMouseX = 0;
+  let lastMouseY = 0;
 
-  // Drag interaction
-  canvas.addEventListener('mousedown', (e) => {
+  // Mouse Drag
+  scene.addEventListener('mousedown', (e) => {
     isDragging = true;
     lastMouseX = e.clientX;
+    lastMouseY = e.clientY;
   });
 
   window.addEventListener('mousemove', (e) => {
     if (isDragging) {
       const dx = e.clientX - lastMouseX;
-      rotY += dx * 0.022;
-      velY = dx * 0.012;
+      const dy = e.clientY - lastMouseY;
+      rotY += dx * 0.75;
+      rotX -= dy * 0.75;
+      velY = dx * 0.45;
+      velX = dy * 0.45;
       lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
     }
   });
 
@@ -724,20 +722,25 @@ function init3DSphere() {
     if (isDragging) isDragging = false;
   });
 
-  // Touch support
-  canvas.addEventListener('touchstart', (e) => {
+  // Touch Support
+  scene.addEventListener('touchstart', (e) => {
     if (e.touches.length === 1) {
       isDragging = true;
       lastMouseX = e.touches[0].clientX;
+      lastMouseY = e.touches[0].clientY;
     }
   }, { passive: true });
 
-  canvas.addEventListener('touchmove', (e) => {
+  window.addEventListener('touchmove', (e) => {
     if (isDragging && e.touches.length === 1) {
       const dx = e.touches[0].clientX - lastMouseX;
-      rotY += dx * 0.022;
-      velY = dx * 0.012;
+      const dy = e.touches[0].clientY - lastMouseY;
+      rotY += dx * 0.75;
+      rotX -= dy * 0.75;
+      velY = dx * 0.45;
+      velX = dy * 0.45;
       lastMouseX = e.touches[0].clientX;
+      lastMouseY = e.touches[0].clientY;
     }
   }, { passive: true });
 
@@ -745,80 +748,24 @@ function init3DSphere() {
     if (isDragging) isDragging = false;
   });
 
-  // Click impulse
-  canvas.addEventListener('click', () => {
-    velY += (Math.random() > 0.5 ? 1 : -1) * 0.22;
+  // Click spin impulse
+  scene.addEventListener('click', () => {
+    velY += (Math.random() - 0.5) * 14;
+    velX += (Math.random() - 0.5) * 10;
   });
 
-  const phrase = "Hi! i am Prasad  •  Hi! i am Prasad  •  ";
-  const numChars = phrase.length;
-
-  function render() {
-    ctx.clearRect(0, 0, size, size);
-
-    // 1. Draw 3D Solid Sphere Base
-    // Top-left light source for 3D depth
-    const lightX = centerX - sphereRadius * 0.35;
-    const lightY = centerY - sphereRadius * 0.35;
-    const sphereGrad = ctx.createRadialGradient(
-      lightX, lightY, sphereRadius * 0.08,
-      centerX, centerY, sphereRadius
-    );
-    sphereGrad.addColorStop(0, '#3a3440');     // 3D Specular highlight
-    sphereGrad.addColorStop(0.25, '#221c25');  // Mid-tone obsidian
-    sphereGrad.addColorStop(0.7, '#131015');   // Charcoal body
-    sphereGrad.addColorStop(1, '#09070b');     // Deep shadow edge
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, sphereRadius, 0, Math.PI * 2);
-    ctx.fillStyle = sphereGrad;
-    ctx.fill();
-
-    // Subtle crisp metallic rim (no outer glow)
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
-    ctx.lineWidth = 1.2;
-    ctx.stroke();
-    ctx.restore();
-
-    // 2. Draw "Hi! i am Prasad" characters wrapping around the 3D ball
-    ctx.save();
-    ctx.font = '700 12px Satoshi, -apple-system, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-
-    for (let i = 0; i < numChars; i++) {
-      const charAngle = (i / numChars) * Math.PI * 2 + rotY;
-      const x = centerX + Math.sin(charAngle) * textRadius;
-      const z = Math.cos(charAngle); // z > 0 is front, z <= 0 is back
-
-      // Only draw characters on the front hemisphere (solid ball occludes the back)
-      if (z > 0.05) {
-        const char = phrase[i];
-        // Perspective scale & alpha
-        const alpha = 0.25 + 0.75 * z;
-        const scale = 0.85 + 0.25 * z;
-
-        ctx.save();
-        ctx.translate(x, centerY);
-        ctx.scale(scale, scale);
-        // Slight tangent perspective rotation
-        ctx.rotate(-Math.cos(charAngle) * 0.12);
-        ctx.fillStyle = `rgba(244, 244, 245, ${alpha})`;
-        ctx.fillText(char, 0, 0);
-        ctx.restore();
-      }
-    }
-    ctx.restore();
-
-    // 3. Animation frame update with inertia
+  // 60fps Smooth Animation Loop with Earth orbit & Inertia
+  function animate() {
     if (!isDragging) {
-      rotY += 0.016 + velY;
+      rotY += 0.42 + velY * 0.1;
+      rotX += Math.sin(Date.now() * 0.0012) * 0.12 + velX * 0.1;
+      velX *= 0.94;
       velY *= 0.94;
     }
 
-    requestAnimationFrame(render);
+    cube.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    requestAnimationFrame(animate);
   }
 
-  render();
+  animate();
 }
