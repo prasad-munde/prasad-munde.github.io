@@ -374,8 +374,8 @@ body {
 /* Curved Name Framing the Sphere - Large, Curved & Prominent in Ethereal Demo */
 .hero-curved-wrap {
   width: 100%;
-  max-width: 520px;
-  margin: 0 auto -4.2rem auto;
+  max-width: 500px;
+  margin: 0 auto -3.6rem auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -386,14 +386,14 @@ body {
 
 .hero-curved-svg {
   width: 100%;
-  height: 165px;
+  height: 155px;
   overflow: visible;
   pointer-events: none;
 }
 
 .hero-curved-text {
   font-family: var(--font-display);
-  font-size: 3.75rem;
+  font-size: 2.95rem;
   font-weight: 700;
   letter-spacing: 0.01em;
   fill: var(--text-main);
@@ -1432,13 +1432,13 @@ body.draw-mode-active #draw-canvas {
     padding: 6.25rem 0 1.75rem 0;
   }
   .hero-curved-wrap {
-    max-width: 360px;
-    margin: 0 auto -2.8rem auto;
+    max-width: 350px;
+    margin: 0 auto -2.4rem auto;
   }
   .hero-curved-svg {
-    height: 120px;
+    height: 110px;
   }
   .hero-curved-text {
-    font-size: 2.7rem;
+    font-size: 2.25rem;
   }
 }
