@@ -284,8 +284,8 @@ body {
    Hero Section (Centered Minimalist)
    ========================================================================== */
 .hero-section {
-  padding: 5rem 0 6rem 0;
-  margin-bottom: 6.5rem;
+  padding: 4.5rem 0 5rem 0;
+  margin-bottom: 5.5rem;
   scroll-margin-top: 5rem;
   display: flex;
   justify-content: center;
@@ -294,7 +294,7 @@ body {
 }
 
 .hero-content {
-  max-width: 780px;
+  max-width: 680px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -305,8 +305,8 @@ body {
 /* Curved Name Framing the Cube */
 .hero-curved-wrap {
   width: 100%;
-  max-width: 340px;
-  margin: 0 auto -0.5rem auto;
+  max-width: 320px;
+  margin: 0 auto -0.25rem auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -314,13 +314,13 @@ body {
 
 .hero-curved-svg {
   width: 100%;
-  height: 68px;
+  height: 65px;
   overflow: visible;
 }
 
 .hero-curved-text {
   font-family: var(--font-satoshi);
-  font-size: 2.15rem;
+  font-size: 2.1rem;
   font-weight: 900;
   letter-spacing: -0.02em;
   fill: var(--text-main);
@@ -387,17 +387,17 @@ body {
   will-change: transform;
 }
 
-/* Perfect Solid Cube (No rounded corners, solid burgundy-charcoal face) */
+/* Perfect Solid Cube (No rounded corners, solid obsidian face) */
 .cube-face {
   position: absolute;
   width: 80px;
   height: 80px;
   left: 5px;
   top: 5px;
-  background: #151116; /* Solid obsidian charcoal */
+  background: #151116;
   border: 1.5px solid rgba(220, 75, 105, 0.55);
   box-shadow: inset 0 0 16px rgba(168, 36, 66, 0.4), 0 10px 28px rgba(0, 0, 0, 0.65);
-  border-radius: 0; /* Perfect Sharp Corners */
+  border-radius: 0;
   backface-visibility: visible;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -419,7 +419,7 @@ body {
   font-weight: 500;
   color: var(--text-muted);
   letter-spacing: 0.04em;
-  margin: -0.25rem 0 1.25rem 0;
+  margin: 0.25rem 0 1.25rem 0;
   text-align: center;
 }
 
@@ -531,15 +531,12 @@ body {
    ========================================================================== */
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
   grid-template-columns: 1fr;
   gap: 1.5rem;
   align-items: stretch;
 }
 
 .about-card, .edu-card {
-  padding: 2.25rem;
   padding: 1.85rem;
   display: flex;
   flex-direction: column;
