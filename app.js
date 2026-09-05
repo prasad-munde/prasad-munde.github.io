@@ -445,16 +445,29 @@ function updateNavIndicator(activeLink) {
 function initNavObserver() {
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links .nav-link');
+  let isNavClicking = false;
+  let scrollLockTimer = null;
 
   navLinks.forEach(link => {
     link.addEventListener('click', () => {
+      isNavClicking = true;
+      clearTimeout(scrollLockTimer);
       navLinks.forEach(l => l.classList.remove('active'));
       link.classList.add('active');
       updateNavIndicator(link);
+
+      scrollLockTimer = setTimeout(() => {
+        isNavClicking = false;
+      }, 800);
     });
   });
 
+  window.addEventListener('wheel', () => { isNavClicking = false; }, { passive: true });
+  window.addEventListener('touchmove', () => { isNavClicking = false; }, { passive: true });
+
   const observer = new IntersectionObserver((entries) => {
+    if (isNavClicking) return;
+
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const id = entry.target.getAttribute('id');
