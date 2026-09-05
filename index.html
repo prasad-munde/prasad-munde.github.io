@@ -18,8 +18,7 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="styles.css?v=2.2">
+  <link rel="stylesheet" href="styles.css?v=2.3">
 </head>
 <body>
 
@@ -103,21 +102,21 @@
           <h1 class="sr-only" id="hero-name">Prasad Munde</h1>
         </div>
 
-        <!-- 3D Interactive Metallic Burgundy Cube (Solid, No Glow, Sharp Corners) -->
-        <div class="cube-stage-wrapper" id="cube-stage-wrapper">
-          <div class="cube-scene" id="cube-scene" title="Drag to rotate 3D metallic cube">
-            <div class="cube-3d" id="cube-3d">
-              <div class="cube-face cube-face--front"></div>
-              <div class="cube-face cube-face--back"></div>
-              <div class="cube-face cube-face--right"></div>
-              <div class="cube-face cube-face--left"></div>
-              <div class="cube-face cube-face--top"></div>
-              <div class="cube-face cube-face--bottom"></div>
+        <!-- 3D Rotating Horizontal Circle (No Shadows, No Glow) -->
+        <div class="circle-stage-wrapper" id="circle-stage-wrapper">
+          <div class="circle-scene" id="circle-scene" title="Rotating circle: Hi! i am Prasad">
+            <div class="circle-3d" id="circle-3d">
+              <div class="circle-face circle-face--front">
+                <span>Hi! i am Prasad</span>
+              </div>
+              <div class="circle-face circle-face--back">
+                <span>Hi! i am Prasad</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Tagline directly below the Cube -->
+        <!-- Tagline directly below the Rotating Circle -->
         <p class="hero-tagline" id="hero-tagline">learning / building / working</p>
         
         <!-- Small Justified Intro Bio -->
@@ -615,10 +614,8 @@
   <div id="toast" class="toast">Action completed!</div>
 
   <!-- 1. Load Data Config First -->
-  <script src="data.js"></script>
-  <script src="data.js?v=2.2"></script>
+  <script src="data.js?v=2.3"></script>
   <!-- 2. Load App Renderer & Logic -->
-  <script src="app.js"></script>
-  <script src="app.js?v=2.2"></script>
+  <script src="app.js?v=2.3"></script>
 </body>
 </html>

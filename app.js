@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavObserver();
   initDrawingCanvas();
   initTechMarquee(data);
-  init3DCube();
+  initRotatingCircle();
 });
 
 /* ==========================================================================
@@ -682,39 +682,31 @@ function initTechMarquee(data) {
 }
 
 /* ==========================================================================
-   3D Interactive Metallic Burgundy Cube Engine (Solid, No Splashes)
+   3D Rotating Horizontal Circle Controller (Drag + Smooth Auto Spin)
    ========================================================================== */
-function init3DCube() {
-  const scene = document.getElementById('cube-scene');
-  const cube = document.getElementById('cube-3d');
-  if (!cube || !scene) return;
+function initRotatingCircle() {
+  const scene = document.getElementById('circle-scene');
+  const circle = document.getElementById('circle-3d');
+  if (!circle || !scene) return;
 
-  // Rotation and Inertia State
-  let rotX = -16;
-  let rotY = 28;
-  let velX = 0;
+  // Rotation State (Horizontal spin around Y axis)
+  let rotY = 0;
   let velY = 0;
   let isDragging = false;
   let lastMouseX = 0;
-  let lastMouseY = 0;
 
-  // Mouse Drag Events
+  // Mouse Drag
   scene.addEventListener('mousedown', (e) => {
     isDragging = true;
     lastMouseX = e.clientX;
-    lastMouseY = e.clientY;
   });
 
   window.addEventListener('mousemove', (e) => {
     if (isDragging) {
       const dx = e.clientX - lastMouseX;
-      const dy = e.clientY - lastMouseY;
-      rotY += dx * 0.75;
-      rotX -= dy * 0.75;
+      rotY += dx * 0.85;
       velY = dx * 0.45;
-      velX = dy * 0.45;
       lastMouseX = e.clientX;
-      lastMouseY = e.clientY;
     }
   });
 
@@ -729,20 +721,15 @@ function init3DCube() {
     if (e.touches.length === 1) {
       isDragging = true;
       lastMouseX = e.touches[0].clientX;
-      lastMouseY = e.touches[0].clientY;
     }
   }, { passive: true });
 
   window.addEventListener('touchmove', (e) => {
     if (isDragging && e.touches.length === 1) {
       const dx = e.touches[0].clientX - lastMouseX;
-      const dy = e.touches[0].clientY - lastMouseY;
-      rotY += dx * 0.75;
-      rotX -= dy * 0.75;
+      rotY += dx * 0.85;
       velY = dx * 0.45;
-      velX = dy * 0.45;
       lastMouseX = e.touches[0].clientX;
-      lastMouseY = e.touches[0].clientY;
     }
   }, { passive: true });
 
@@ -752,22 +739,19 @@ function init3DCube() {
     }
   });
 
-  // Hover spin impulse
+  // Click spin impulse
   scene.addEventListener('click', () => {
-    velY += (Math.random() - 0.5) * 12;
-    velX += (Math.random() - 0.5) * 12;
+    velY += (Math.random() > 0.5 ? 1 : -1) * 14;
   });
 
-  // 60fps Smooth Animation Loop with Inertia & Gentle Auto-Rotation
+  // Horizontal continuous rotation loop
   function animate() {
     if (!isDragging) {
-      rotY += 0.35 + velY * 0.1;
-      rotX += Math.sin(Date.now() * 0.0015) * 0.15 + velX * 0.1;
-      velX *= 0.93;
-      velY *= 0.93;
+      rotY += 0.75 + velY * 0.1;
+      velY *= 0.94;
     }
 
-    cube.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    circle.style.transform = `rotateY(${rotY}deg)`;
     requestAnimationFrame(animate);
   }
 
