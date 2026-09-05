@@ -535,6 +535,17 @@ body {
 /* ==========================================================================
    Page Load & Scroll Entrance Transitions
    ========================================================================== */
+@keyframes headerFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 14px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
 @keyframes pageFadeIn {
   from {
     opacity: 0;
@@ -547,7 +558,7 @@ body {
 }
 
 .site-header {
-  animation: pageFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: headerFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .hero-section {
