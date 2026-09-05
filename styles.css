@@ -1,28 +1,30 @@
 /* ==========================================================================
    Prasad Munde Portfolio - Minimalist, Cool, High-Aesthetic Portfolio
    Typography: Satoshi (All over)
-   Theme: Charcoal / Eigengrau Dark
+   Theme: Charcoal / Velvet Burgundy Dark
    ========================================================================== */
 
 :root {
-  /* Charcoal & Eigengrau Dark Theme */
-  --bg: #121214;                  /* Deep Charcoal / Eigengrau */
-  --bg-secondary: #18181b;        /* Charcoal Zinc */
-  --bg-card: rgba(24, 24, 28, 0.65); /* Translucent charcoal glass */
-  --bg-card-hover: rgba(32, 32, 38, 0.85);
+  /* Charcoal & Velvet Burgundy Dark Theme */
+  --bg: #0e0d10;                  /* Deep Obsidian Charcoal */
+  --bg-secondary: #161317;        /* Charcoal with faint burgundy undertone */
+  --bg-card: rgba(24, 19, 24, 0.65); /* Translucent charcoal burgundy glass */
+  --bg-card-hover: rgba(34, 25, 33, 0.85);
   --border: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(255, 255, 255, 0.18);
+  --border-hover: rgba(210, 65, 95, 0.28); /* Subtle burgundy specular edge */
   --text-main: #f4f4f5;           /* Crisp clean white */
   --text-secondary: #a1a1aa;      /* Neutral zinc grey */
   --text-muted: #71717a;          /* Muted charcoal */
   --accent-primary: #e4e4e7;      /* Clean silver metallic */
-  --accent-glow: rgba(255, 255, 255, 0.06);
+  --accent-burgundy: #a82442;     /* Rich velvet burgundy accent */
+  --accent-burgundy-light: #f43f5e;
+  --accent-glow: rgba(168, 36, 66, 0.18); /* Warm burgundy ambient glow */
   --btn-primary-bg: #f4f4f5;
-  --btn-primary-text: #121214;
+  --btn-primary-text: #0e0d10;
   --btn-secondary-bg: rgba(255, 255, 255, 0.05);
   --btn-secondary-border: rgba(255, 255, 255, 0.1);
   --tag-bg: rgba(255, 255, 255, 0.05);
-  --spotlight: rgba(255, 255, 255, 0.04);
+  --spotlight: rgba(180, 36, 68, 0.06); /* Subtle burgundy spotlight on card hover */
   
   --font-satoshi: 'Satoshi', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --radius-lg: 18px;
@@ -59,32 +61,32 @@ body {
   transition: background-color var(--transition-smooth), color var(--transition-smooth);
 }
 
-/* Subtle Charcoal Ambient Glow */
+/* Subtle Velvet Burgundy Ambient Glow */
 .ambient-glow {
   position: fixed;
   border-radius: 50%;
   pointer-events: none;
   z-index: 0;
   filter: blur(140px);
-  opacity: 0.25;
+  opacity: 0.32;
   transition: all var(--transition-smooth);
 }
 
 .glow-1 {
-  width: 500px;
-  height: 500px;
-  top: -100px;
+  width: 540px;
+  height: 540px;
+  top: -120px;
   left: 50%;
   transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, rgba(161, 161, 170, 0.02) 60%, transparent 80%);
+  background: radial-gradient(circle, rgba(140, 24, 48, 0.22) 0%, rgba(85, 14, 30, 0.08) 50%, transparent 80%);
 }
 
 .glow-2 {
-  width: 450px;
-  height: 450px;
-  bottom: 10%;
-  right: -50px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+  width: 480px;
+  height: 480px;
+  bottom: 8%;
+  right: -60px;
+  background: radial-gradient(circle, rgba(110, 18, 38, 0.16) 0%, transparent 70%);
 }
 
 /* ==========================================================================
@@ -112,15 +114,15 @@ body {
   align-items: center;
   gap: 0.2rem;
   padding: 0.35rem 0.4rem;
-  background: rgba(18, 18, 22, 0.78);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(20, 15, 18, 0.82);
+  border: 1px solid rgba(180, 48, 76, 0.22);
   border-radius: 18px; /* Squared floating bar with curved edges */
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 24px rgba(140, 24, 48, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.12);
 }
 
-/* Apple Liquid Glass Highlight Indicator */
+/* Apple Liquid Glass Highlight Indicator with Velvet Burgundy Tint */
 .nav-indicator {
   position: absolute;
   top: 0;
@@ -128,9 +130,9 @@ body {
   width: 0;
   height: 0;
   border-radius: 13px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  background: linear-gradient(135deg, rgba(170, 32, 62, 0.36) 0%, rgba(95, 16, 36, 0.16) 100%);
+  border: 1px solid rgba(220, 75, 105, 0.38);
+  box-shadow: 0 4px 16px rgba(120, 20, 42, 0.35), inset 0 1px 1px rgba(255, 200, 215, 0.3);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   pointer-events: none;
@@ -188,7 +190,7 @@ body {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px var(--accent-glow);
+  box-shadow: 0 8px 24px rgba(168, 36, 66, 0.28);
   opacity: 0.95;
 }
 
@@ -200,8 +202,9 @@ body {
 }
 
 .btn-secondary:hover {
-  background-color: var(--border-hover);
-  border-color: var(--text-secondary);
+  background-color: rgba(35, 25, 32, 0.85);
+  border-color: rgba(210, 65, 95, 0.35);
+  color: var(--text-main);
   transform: translateY(-2px);
 }
 
@@ -622,7 +625,8 @@ body.draw-mode-active #draw-canvas {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: var(--accent-primary);
+  background-color: var(--accent-burgundy);
+  box-shadow: 0 0 8px rgba(168, 36, 66, 0.45);
   margin-top: 0.6rem;
   flex-shrink: 0;
 }
