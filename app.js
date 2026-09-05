@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavObserver();
   initDrawingCanvas();
   initTechMarquee(data);
-  initRotatingCircle();
+  init3DSphere();
 });
 
 /* ==========================================================================
@@ -682,21 +682,31 @@ function initTechMarquee(data) {
 }
 
 /* ==========================================================================
-   3D Rotating Horizontal Circle Controller (Drag + Smooth Auto Spin)
+   3D Rotating Ball (Sphere) Engine with "Hi! i am Prasad"
    ========================================================================== */
-function initRotatingCircle() {
-  const scene = document.getElementById('circle-scene');
-  const circle = document.getElementById('circle-3d');
-  if (!circle || !scene) return;
+function init3DSphere() {
+  const canvas = document.getElementById('sphere-canvas');
+  if (!canvas) return;
 
-  // Rotation State (Horizontal spin around Y axis)
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const size = 140;
+  canvas.width = size * dpr;
+  canvas.height = size * dpr;
+  ctx.scale(dpr, dpr);
+
+  const centerX = size / 2;
+  const centerY = size / 2;
+  const sphereRadius = 46;
+  const textRadius = 47.5;
+
   let rotY = 0;
   let velY = 0;
   let isDragging = false;
   let lastMouseX = 0;
 
-  // Mouse Drag
-  scene.addEventListener('mousedown', (e) => {
+  // Drag interaction
+  canvas.addEventListener('mousedown', (e) => {
     isDragging = true;
     lastMouseX = e.clientX;
   });
@@ -704,56 +714,111 @@ function initRotatingCircle() {
   window.addEventListener('mousemove', (e) => {
     if (isDragging) {
       const dx = e.clientX - lastMouseX;
-      rotY += dx * 0.85;
-      velY = dx * 0.45;
+      rotY += dx * 0.022;
+      velY = dx * 0.012;
       lastMouseX = e.clientX;
     }
   });
 
   window.addEventListener('mouseup', () => {
-    if (isDragging) {
-      isDragging = false;
-    }
+    if (isDragging) isDragging = false;
   });
 
-  // Touch Support
-  scene.addEventListener('touchstart', (e) => {
+  // Touch support
+  canvas.addEventListener('touchstart', (e) => {
     if (e.touches.length === 1) {
       isDragging = true;
       lastMouseX = e.touches[0].clientX;
     }
   }, { passive: true });
 
-  window.addEventListener('touchmove', (e) => {
+  canvas.addEventListener('touchmove', (e) => {
     if (isDragging && e.touches.length === 1) {
       const dx = e.touches[0].clientX - lastMouseX;
-      rotY += dx * 0.85;
-      velY = dx * 0.45;
+      rotY += dx * 0.022;
+      velY = dx * 0.012;
       lastMouseX = e.touches[0].clientX;
     }
   }, { passive: true });
 
   window.addEventListener('touchend', () => {
-    if (isDragging) {
-      isDragging = false;
+    if (isDragging) isDragging = false;
+  });
+
+  // Click impulse
+  canvas.addEventListener('click', () => {
+    velY += (Math.random() > 0.5 ? 1 : -1) * 0.22;
+  });
+
+  const phrase = "Hi! i am Prasad  •  Hi! i am Prasad  •  ";
+  const numChars = phrase.length;
+
+  function render() {
+    ctx.clearRect(0, 0, size, size);
+
+    // 1. Draw 3D Solid Sphere Base
+    // Top-left light source for 3D depth
+    const lightX = centerX - sphereRadius * 0.35;
+    const lightY = centerY - sphereRadius * 0.35;
+    const sphereGrad = ctx.createRadialGradient(
+      lightX, lightY, sphereRadius * 0.08,
+      centerX, centerY, sphereRadius
+    );
+    sphereGrad.addColorStop(0, '#3a3440');     // 3D Specular highlight
+    sphereGrad.addColorStop(0.25, '#221c25');  // Mid-tone obsidian
+    sphereGrad.addColorStop(0.7, '#131015');   // Charcoal body
+    sphereGrad.addColorStop(1, '#09070b');     // Deep shadow edge
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, sphereRadius, 0, Math.PI * 2);
+    ctx.fillStyle = sphereGrad;
+    ctx.fill();
+
+    // Subtle crisp metallic rim (no outer glow)
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+    ctx.restore();
+
+    // 2. Draw "Hi! i am Prasad" characters wrapping around the 3D ball
+    ctx.save();
+    ctx.font = '700 12px Satoshi, -apple-system, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    for (let i = 0; i < numChars; i++) {
+      const charAngle = (i / numChars) * Math.PI * 2 + rotY;
+      const x = centerX + Math.sin(charAngle) * textRadius;
+      const z = Math.cos(charAngle); // z > 0 is front, z <= 0 is back
+
+      // Only draw characters on the front hemisphere (solid ball occludes the back)
+      if (z > 0.05) {
+        const char = phrase[i];
+        // Perspective scale & alpha
+        const alpha = 0.25 + 0.75 * z;
+        const scale = 0.85 + 0.25 * z;
+
+        ctx.save();
+        ctx.translate(x, centerY);
+        ctx.scale(scale, scale);
+        // Slight tangent perspective rotation
+        ctx.rotate(-Math.cos(charAngle) * 0.12);
+        ctx.fillStyle = `rgba(244, 244, 245, ${alpha})`;
+        ctx.fillText(char, 0, 0);
+        ctx.restore();
+      }
     }
-  });
+    ctx.restore();
 
-  // Click spin impulse
-  scene.addEventListener('click', () => {
-    velY += (Math.random() > 0.5 ? 1 : -1) * 14;
-  });
-
-  // Horizontal continuous rotation loop
-  function animate() {
+    // 3. Animation frame update with inertia
     if (!isDragging) {
-      rotY += 0.75 + velY * 0.1;
+      rotY += 0.016 + velY;
       velY *= 0.94;
     }
 
-    circle.style.transform = `rotateY(${rotY}deg)`;
-    requestAnimationFrame(animate);
+    requestAnimationFrame(render);
   }
 
-  animate();
+  render();
 }
