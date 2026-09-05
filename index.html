@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,50 +22,20 @@
 </head>
 <body>
 
-  <!-- Subtle Ambient Glow -->
+  <!-- Subtle Charcoal Ambient Glow -->
   <div class="ambient-glow glow-1"></div>
   <div class="ambient-glow glow-2"></div>
 
-  <!-- Sleek Header Navigation -->
+  <!-- Floating Squircle Header Navigation with Liquid Glass Indicator -->
   <header class="site-header" id="site-header">
-    <div class="header-inner">
-      <div class="brand-area">
-        <a href="#hero" class="logo" id="header-logo">prsd</a>
-      </div>
-
-      <nav class="nav-links" id="main-nav">
-        <a href="#about" class="nav-link">About</a>
-        <a href="#experience" class="nav-link">Experience</a>
-        <a href="#projects" class="nav-link">Projects</a>
-        <a href="#skills" class="nav-link">Skills</a>
-        <a href="#contact" class="nav-link">Contact</a>
-      </nav>
-
-      <div class="header-actions">
-        <!-- Theme Switcher -->
-        <button class="icon-btn theme-toggle" id="theme-toggle" type="button" title="Toggle Theme (Dark / Light)" aria-label="Toggle Theme">
-          <svg class="icon-svg sun-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="4"></circle>
-            <path d="M12 2v2"></path>
-            <path d="M12 20v2"></path>
-            <path d="m4.93 4.93 1.41 1.41"></path>
-            <path d="m17.66 17.66 1.41 1.41"></path>
-            <path d="M2 12h2"></path>
-            <path d="M20 12h2"></path>
-            <path d="m6.34 17.66-1.41 1.41"></path>
-            <path d="m19.07 4.93-1.41 1.41"></path>
-          </svg>
-          <svg class="icon-svg moon-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-          </svg>
-        </button>
-
-        <!-- Command Palette Trigger -->
-        <button class="icon-btn cmd-trigger" id="cmd-trigger" title="Command Palette (Ctrl+K)">
-          <span class="cmd-badge">⌘K</span>
-        </button>
-      </div>
-    </div>
+    <nav class="nav-links" id="main-nav">
+      <div class="nav-indicator" id="nav-indicator"></div>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#experience" class="nav-link">Experience</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#skills" class="nav-link">Skills</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
   </header>
 
   <!-- Full Page Drawing Canvas Layer -->

@@ -25,8 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initSpotlight();
   initAvatar3D();
   initProjectFilters();
-  initTerminal(data);
-  initThemeEngine();
   initNavObserver();
   initDrawingCanvas();
 });
@@ -431,33 +429,42 @@ function initTerminal(data) {
   });
 }
 
-function initThemeEngine() {
-  const themeToggle = document.getElementById('theme-toggle');
-  
-  // Default to light (#F1F5F9) if not explicitly set to dark
-  const savedTheme = localStorage.getItem('pm-theme');
-  const initial = (savedTheme === 'dark') ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', initial);
+function updateNavIndicator(activeLink) {
+  const indicator = document.getElementById('nav-indicator');
+  const navContainer = document.getElementById('main-nav');
+  if (!indicator || !navContainer) return;
 
-  if (themeToggle) {
-    themeToggle.onclick = function(e) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      const active = document.documentElement.getAttribute('data-theme') || 'light';
-      const target = (active === 'light') ? 'dark' : 'light';
-      
-      document.documentElement.setAttribute('data-theme', target);
-      localStorage.setItem('pm-theme', target);
-      showToast(`Theme: ${target.toUpperCase()}`);
-    };
+  if (!activeLink) {
+    activeLink = navContainer.querySelector('.nav-link.active') || navContainer.querySelector('.nav-link');
+  }
+
+  if (activeLink) {
+    const linkRect = activeLink.getBoundingClientRect();
+    const navRect = navContainer.getBoundingClientRect();
+
+    const left = linkRect.left - navRect.left;
+    const top = linkRect.top - navRect.top;
+    const width = linkRect.width;
+    const height = linkRect.height;
+
+    indicator.style.opacity = '1';
+    indicator.style.transform = `translate3d(${left}px, ${top}px, 0)`;
+    indicator.style.width = `${width}px`;
+    indicator.style.height = `${height}px`;
   }
 }
 
 function initNavObserver() {
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links .nav-link');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      updateNavIndicator(link);
+    });
+  });
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -466,15 +473,21 @@ function initNavObserver() {
         navLinks.forEach(link => {
           if (link.getAttribute('href') === `#${id}`) {
             link.classList.add('active');
+            updateNavIndicator(link);
           } else {
             link.classList.remove('active');
           }
         });
       }
     });
-  }, { threshold: 0.3 });
+  }, { threshold: 0.25 });
 
   sections.forEach(s => observer.observe(s));
+
+  // Initialize indicator position
+  setTimeout(() => updateNavIndicator(), 80);
+  window.addEventListener('resize', () => updateNavIndicator());
+  window.addEventListener('load', () => updateNavIndicator());
 }
 
 function initDrawingCanvas() {
