@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavObserver();
   initDrawingCanvas();
   initTechMarquee(data);
-  initEarthCube();
+  init3DBlackBall();
 });
 
 /* ==========================================================================
@@ -682,24 +682,33 @@ function initTechMarquee(data) {
 }
 
 /* ==========================================================================
-   3D Interactive Earth Cube Controller (Drag Rotation + Gentle Auto-Orbit)
+   3D Solid Black Ball (Obsidian Sphere) Engine (Drag + Smooth 3D Rotation)
    ========================================================================== */
-function initEarthCube() {
-  const scene = document.getElementById('cube-scene');
-  const cube = document.getElementById('cube-3d');
-  if (!cube || !scene) return;
+function init3DBlackBall() {
+  const canvas = document.getElementById('sphere-canvas');
+  if (!canvas) return;
 
-  // Initial tilt & rotation
-  let rotX = -18;
-  let rotY = 32;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const size = 140;
+  canvas.width = size * dpr;
+  canvas.height = size * dpr;
+  ctx.scale(dpr, dpr);
+
+  const centerX = size / 2;
+  const centerY = size / 2;
+  const R = 46;
+
+  let rotX = -0.25;
+  let rotY = 0.45;
   let velX = 0;
   let velY = 0;
   let isDragging = false;
   let lastMouseX = 0;
   let lastMouseY = 0;
 
-  // Mouse Drag
-  scene.addEventListener('mousedown', (e) => {
+  // Drag interaction
+  canvas.addEventListener('mousedown', (e) => {
     isDragging = true;
     lastMouseX = e.clientX;
     lastMouseY = e.clientY;
@@ -709,10 +718,10 @@ function initEarthCube() {
     if (isDragging) {
       const dx = e.clientX - lastMouseX;
       const dy = e.clientY - lastMouseY;
-      rotY += dx * 0.75;
-      rotX -= dy * 0.75;
-      velY = dx * 0.45;
-      velX = dy * 0.45;
+      rotY += dx * 0.02;
+      rotX += dy * 0.02;
+      velY = dx * 0.012;
+      velX = dy * 0.012;
       lastMouseX = e.clientX;
       lastMouseY = e.clientY;
     }
@@ -722,8 +731,8 @@ function initEarthCube() {
     if (isDragging) isDragging = false;
   });
 
-  // Touch Support
-  scene.addEventListener('touchstart', (e) => {
+  // Touch support
+  canvas.addEventListener('touchstart', (e) => {
     if (e.touches.length === 1) {
       isDragging = true;
       lastMouseX = e.touches[0].clientX;
@@ -735,10 +744,10 @@ function initEarthCube() {
     if (isDragging && e.touches.length === 1) {
       const dx = e.touches[0].clientX - lastMouseX;
       const dy = e.touches[0].clientY - lastMouseY;
-      rotY += dx * 0.75;
-      rotX -= dy * 0.75;
-      velY = dx * 0.45;
-      velX = dy * 0.45;
+      rotY += dx * 0.02;
+      rotX += dy * 0.02;
+      velY = dx * 0.012;
+      velX = dy * 0.012;
       lastMouseX = e.touches[0].clientX;
       lastMouseY = e.touches[0].clientY;
     }
@@ -748,24 +757,78 @@ function initEarthCube() {
     if (isDragging) isDragging = false;
   });
 
-  // Click spin impulse
-  scene.addEventListener('click', () => {
-    velY += (Math.random() - 0.5) * 14;
-    velX += (Math.random() - 0.5) * 10;
+  // Click spin
+  canvas.addEventListener('click', () => {
+    velY += (Math.random() > 0.5 ? 1 : -1) * 0.22;
   });
 
-  // 60fps Smooth Animation Loop with Earth orbit & Inertia
-  function animate() {
+  function render() {
+    ctx.clearRect(0, 0, size, size);
+
+    // 1. Draw 3D Solid Obsidian Black Ball
+    // Light source from top-left, slightly moving with rotation
+    const lightOffsetX = -R * 0.32 + Math.sin(rotY) * 3;
+    const lightOffsetY = -R * 0.32 + Math.sin(rotX) * 3;
+
+    const sphereGrad = ctx.createRadialGradient(
+      centerX + lightOffsetX, centerY + lightOffsetY, R * 0.06,
+      centerX, centerY, R
+    );
+    sphereGrad.addColorStop(0, '#4a4450');     // Soft specular highlight
+    sphereGrad.addColorStop(0.22, '#252028');  // Mid satin obsidian
+    sphereGrad.addColorStop(0.65, '#120f14');  // Deep solid charcoal body
+    sphereGrad.addColorStop(1, '#070608');     // Shadow rim edge
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, R, 0, Math.PI * 2);
+    ctx.fillStyle = sphereGrad;
+    ctx.fill();
+
+    // Subtle crisp rim edge (no glow)
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+
+    // 2. Subtle minimalist rotating latitude bands giving 3D spherical depth
+    const numRings = 3;
+    for (let r = 0; r < numRings; r++) {
+      const ringAngle = rotY + (r * Math.PI) / numRings;
+      const sinA = Math.sin(ringAngle);
+      const cosA = Math.cos(ringAngle);
+
+      // Only draw ring on front half
+      if (cosA > 0) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.ellipse(
+          centerX,
+          centerY,
+          R * Math.abs(cosA),
+          R,
+          rotX * 0.3,
+          0,
+          Math.PI * 2
+        );
+        ctx.strokeStyle = `rgba(255, 255, 255, ${0.04 * cosA})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+
+    ctx.restore();
+
+    // 3. Animation update
     if (!isDragging) {
-      rotY += 0.42 + velY * 0.1;
-      rotX += Math.sin(Date.now() * 0.0012) * 0.12 + velX * 0.1;
+      rotY += 0.018 + velY;
+      rotX += Math.sin(Date.now() * 0.001) * 0.003 + velX;
       velX *= 0.94;
       velY *= 0.94;
     }
 
-    cube.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-    requestAnimationFrame(animate);
+    requestAnimationFrame(render);
   }
 
-  animate();
+  render();
 }

@@ -362,95 +362,31 @@ body {
 }
 
 /* ==========================================================================
-   3D Interactive Earth Cube (Solid Earth Continents on 6 Faces)
+   3D Rotating Black Ball (Obsidian Sphere) - Clean, Solid, No Glow
    ========================================================================== */
-.cube-stage-wrapper {
+.sphere-stage-wrapper {
   position: relative;
   width: 100%;
-  height: 155px;
+  height: 140px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0.15rem 0 0.55rem 0;
+  margin: 0.1rem 0 0.45rem 0;
   user-select: none;
 }
 
-.cube-scene {
-  position: relative;
-  width: 86px;
-  height: 86px;
-  perspective: 750px;
+.sphere-canvas {
+  width: 140px;
+  height: 140px;
   cursor: grab;
   touch-action: none;
-}
-
-.cube-scene:active {
-  cursor: grabbing;
-}
-
-.cube-3d {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-.cube-face {
-  position: absolute;
-  width: 84px;
-  height: 84px;
-  left: 1px;
-  top: 1px;
-  background: radial-gradient(circle at 45% 45%, #152438 0%, #0c1522 60%, #060a12 100%);
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  box-shadow: inset 0 0 10px rgba(6, 182, 212, 0.15), 0 8px 20px rgba(0, 0, 0, 0.5);
-  border-radius: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backface-visibility: visible;
-  transition: border-color 0.2s;
-  overflow: hidden;
-}
-
-.cube-scene:hover .cube-face {
-  border-color: rgba(56, 189, 248, 0.65);
-}
-
-.earth-face-svg {
-  width: 100%;
-  height: 100%;
   display: block;
 }
 
-.earth-land {
-  fill: #18382b;
-  stroke: #34d399;
-  stroke-width: 0.9;
-  stroke-linejoin: round;
+.sphere-canvas:active {
+  cursor: grabbing;
 }
-
-.earth-ice {
-  fill: #223846;
-  stroke: #93c5fd;
-  stroke-width: 0.9;
-  stroke-linejoin: round;
-}
-
-.earth-grid {
-  stroke: rgba(56, 189, 248, 0.12);
-  stroke-dasharray: 3 3;
-  stroke-width: 0.7;
-}
-
-.cube-face--front  { transform: rotateY(0deg) translateZ(42px); }
-.cube-face--back   { transform: rotateY(180deg) translateZ(42px); }
-.cube-face--right  { transform: rotateY(90deg) translateZ(42px); }
-.cube-face--left   { transform: rotateY(-90deg) translateZ(42px); }
-.cube-face--top    { transform: rotateX(90deg) translateZ(42px); }
-.cube-face--bottom { transform: rotateX(-90deg) translateZ(42px); }
 
 .hero-tagline {
   font-size: 1.05rem;

@@ -18,7 +18,7 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <link rel="stylesheet" href="styles.css?v=2.5">
+  <link rel="stylesheet" href="styles.css?v=2.6">
 </head>
 <body>
 
@@ -102,65 +102,12 @@
           <h1 class="sr-only" id="hero-name">Prasad Munde</h1>
         </div>
 
-        <!-- 3D Interactive Earth Cube (Solid Earth Continents on 6 Faces) -->
-        <div class="cube-stage-wrapper" id="cube-stage-wrapper">
-          <div class="cube-scene" id="cube-scene" title="Drag to rotate Earth Cube">
-            <div class="cube-3d" id="cube-3d">
-              <!-- Front: Americas -->
-              <div class="cube-face cube-face--front">
-                <svg viewBox="0 0 100 100" class="earth-face-svg">
-                  <path d="M 22,18 Q 38,14 48,22 Q 44,35 32,38 Q 28,45 35,52 Q 25,48 20,38 Z" class="earth-land" />
-                  <path d="M 38,54 Q 50,56 46,68 Q 42,82 36,88 Q 33,80 34,68 Z" class="earth-land" />
-                  <circle cx="50" cy="50" r="42" fill="none" class="earth-grid" />
-                </svg>
-              </div>
-              <!-- Back: Pacific & East Asia -->
-              <div class="cube-face cube-face--back">
-                <svg viewBox="0 0 100 100" class="earth-face-svg">
-                  <path d="M 55,25 Q 75,20 80,35 Q 70,45 58,40 Z" class="earth-land" />
-                  <path d="M 68,52 Q 80,55 75,65 Q 65,65 64,55 Z" class="earth-land" />
-                  <path d="M 60,68 Q 78,65 76,82 Q 62,85 58,74 Z" class="earth-land" />
-                  <circle cx="50" cy="50" r="42" fill="none" class="earth-grid" />
-                </svg>
-              </div>
-              <!-- Right: Asia & Indian Ocean -->
-              <div class="cube-face cube-face--right">
-                <svg viewBox="0 0 100 100" class="earth-face-svg">
-                  <path d="M 18,22 Q 45,18 75,25 Q 82,42 60,48 Q 40,42 25,35 Z" class="earth-land" />
-                  <path d="M 42,42 Q 52,44 48,58 Q 40,58 38,48 Z" class="earth-land" />
-                  <circle cx="50" cy="50" r="42" fill="none" class="earth-grid" />
-                </svg>
-              </div>
-              <!-- Left: Europe & Africa -->
-              <div class="cube-face cube-face--left">
-                <svg viewBox="0 0 100 100" class="earth-face-svg">
-                  <path d="M 35,20 Q 55,18 52,32 Q 40,34 32,28 Z" class="earth-land" />
-                  <path d="M 32,36 Q 58,35 56,58 Q 48,80 38,78 Q 30,60 30,45 Z" class="earth-land" />
-                  <path d="M 62,62 Q 66,60 64,70 Q 60,70 62,62 Z" class="earth-land" />
-                  <circle cx="50" cy="50" r="42" fill="none" class="earth-grid" />
-                </svg>
-              </div>
-              <!-- Top: Arctic North Pole -->
-              <div class="cube-face cube-face--top">
-                <svg viewBox="0 0 100 100" class="earth-face-svg">
-                  <path d="M 35,35 Q 50,28 65,35 Q 72,50 65,65 Q 50,72 35,65 Q 28,50 35,35 Z" class="earth-ice" />
-                  <path d="M 20,45 Q 28,42 26,55 Z" class="earth-land" />
-                  <path d="M 50,18 Q 58,22 52,26 Z" class="earth-land" />
-                  <circle cx="50" cy="50" r="42" fill="none" class="earth-grid" />
-                </svg>
-              </div>
-              <!-- Bottom: Antarctica South Pole -->
-              <div class="cube-face cube-face--bottom">
-                <svg viewBox="0 0 100 100" class="earth-face-svg">
-                  <path d="M 30,30 Q 55,22 72,32 Q 78,55 68,72 Q 45,78 28,68 Q 22,48 30,30 Z" class="earth-ice" />
-                  <circle cx="50" cy="50" r="42" fill="none" class="earth-grid" />
-                </svg>
-              </div>
-            </div>
-          </div>
+        <!-- 3D Rotating Solid Black Ball (Obsidian Sphere) -->
+        <div class="sphere-stage-wrapper" id="sphere-stage-wrapper">
+          <canvas id="sphere-canvas" class="sphere-canvas" width="280" height="280" title="Drag to spin 3D black ball"></canvas>
         </div>
 
-        <!-- Tagline directly below the Earth Cube -->
+        <!-- Tagline directly below the Ball -->
         <p class="hero-tagline" id="hero-tagline">learning / building / working</p>
         
         <!-- Small Justified Intro Bio -->
@@ -658,8 +605,8 @@
   <div id="toast" class="toast">Action completed!</div>
 
   <!-- 1. Load Data Config First -->
-  <script src="data.js?v=2.5"></script>
+  <script src="data.js?v=2.6"></script>
   <!-- 2. Load App Renderer & Logic -->
-  <script src="app.js?v=2.5"></script>
+  <script src="app.js?v=2.6"></script>
 </body>
 </html>
