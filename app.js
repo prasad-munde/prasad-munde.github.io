@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavObserver();
   initDrawingCanvas();
   initTechMarquee(data);
-  init3DCubeSplashEngine();
+  init3DCube();
 });
 
 /* ==========================================================================
@@ -682,31 +682,12 @@ function initTechMarquee(data) {
 }
 
 /* ==========================================================================
-   3D Interactive Velvet Burgundy Cube & Fluid Splash Physics Engine
+   3D Interactive Metallic Burgundy Cube Engine (Solid, No Splashes)
    ========================================================================== */
-function init3DCubeSplashEngine() {
+function init3DCube() {
   const scene = document.getElementById('cube-scene');
   const cube = document.getElementById('cube-3d');
-  const canvas = document.getElementById('cube-splash-canvas');
-  if (!cube || !canvas || !scene) return;
-
-  const ctx = canvas.getContext('2d');
-  let width = 460;
-  let height = 280;
-
-  function resizeCanvas() {
-    const rect = canvas.getBoundingClientRect();
-    if (rect.width && rect.height) {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
-      width = rect.width;
-      height = rect.height;
-    }
-  }
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
+  if (!cube || !scene) return;
 
   // Rotation and Inertia State
   let rotX = -16;
@@ -716,48 +697,12 @@ function init3DCubeSplashEngine() {
   let isDragging = false;
   let lastMouseX = 0;
   let lastMouseY = 0;
-  let lastEmitTime = 0;
-
-  // Particle System
-  const particles = [];
-  const ripples = [];
-  const burgundyPalette = [
-    { r: 244, g: 63,  b: 94 },  // Rose Red
-    { r: 220, g: 38,  b: 76 },  // Crimson Wine
-    { r: 168, g: 36,  b: 66 },  // Deep Velvet Burgundy
-    { r: 136, g: 19,  b: 55 },  // Dark Plum Wine
-    { r: 255, g: 160, b: 180 }  // Liquid specular pink
-  ];
-
-  function emitWaterSplashes(count, force = 1) {
-    const centerX = width / 2;
-    const centerY = height / 2 - 8;
-
-    for (let i = 0; i < count; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const speed = (2.5 + Math.random() * 5.5) * force;
-      const col = burgundyPalette[Math.floor(Math.random() * burgundyPalette.length)];
-
-      particles.push({
-        x: centerX + (Math.random() - 0.5) * 36,
-        y: centerY + (Math.random() - 0.5) * 36,
-        vx: Math.cos(angle) * speed + (velY * 0.08),
-        vy: Math.sin(angle) * speed - (velX * 0.08) - (1.6 * force),
-        radius: 1.8 + Math.random() * 3.6,
-        color: col,
-        alpha: 0.95,
-        decay: 0.015 + Math.random() * 0.02,
-        gravity: 0.16 + Math.random() * 0.06
-      });
-    }
-  }
 
   // Mouse Drag Events
   scene.addEventListener('mousedown', (e) => {
     isDragging = true;
     lastMouseX = e.clientX;
     lastMouseY = e.clientY;
-    emitWaterSplashes(14, 1.2);
   });
 
   window.addEventListener('mousemove', (e) => {
@@ -766,23 +711,16 @@ function init3DCubeSplashEngine() {
       const dy = e.clientY - lastMouseY;
       rotY += dx * 0.75;
       rotX -= dy * 0.75;
-      velY = dx * 0.5;
-      velX = dy * 0.5;
+      velY = dx * 0.45;
+      velX = dy * 0.45;
       lastMouseX = e.clientX;
       lastMouseY = e.clientY;
-
-      const now = performance.now();
-      if (now - lastEmitTime > 35) {
-        emitWaterSplashes(Math.min(6, Math.floor(Math.abs(dx + dy) * 0.3) + 2), 1);
-        lastEmitTime = now;
-      }
     }
   });
 
   window.addEventListener('mouseup', () => {
     if (isDragging) {
       isDragging = false;
-      emitWaterSplashes(16, 1.3);
     }
   });
 
@@ -792,7 +730,6 @@ function init3DCubeSplashEngine() {
       isDragging = true;
       lastMouseX = e.touches[0].clientX;
       lastMouseY = e.touches[0].clientY;
-      emitWaterSplashes(12, 1.2);
     }
   }, { passive: true });
 
@@ -802,110 +739,35 @@ function init3DCubeSplashEngine() {
       const dy = e.touches[0].clientY - lastMouseY;
       rotY += dx * 0.75;
       rotX -= dy * 0.75;
-      velY = dx * 0.5;
-      velX = dy * 0.5;
+      velY = dx * 0.45;
+      velX = dy * 0.45;
       lastMouseX = e.touches[0].clientX;
       lastMouseY = e.touches[0].clientY;
-
-      const now = performance.now();
-      if (now - lastEmitTime > 40) {
-        emitWaterSplashes(4, 1);
-        lastEmitTime = now;
-      }
     }
   }, { passive: true });
 
   window.addEventListener('touchend', () => {
     if (isDragging) {
       isDragging = false;
-      emitWaterSplashes(10, 1.1);
     }
   });
 
-  // Click & Hover Triggers
+  // Hover spin impulse
   scene.addEventListener('click', () => {
-    velY += (Math.random() - 0.5) * 16;
-    velX += (Math.random() - 0.5) * 16;
-    emitWaterSplashes(26, 1.6);
+    velY += (Math.random() - 0.5) * 12;
+    velX += (Math.random() - 0.5) * 12;
   });
 
-  scene.addEventListener('mouseenter', () => {
-    emitWaterSplashes(8, 0.9);
-  });
-
-  // 60fps Animation Loop
+  // 60fps Smooth Animation Loop with Inertia & Gentle Auto-Rotation
   function animate() {
     if (!isDragging) {
       rotY += 0.35 + velY * 0.1;
-      rotX += Math.sin(Date.now() * 0.0015) * 0.2 + velX * 0.1;
-      velX *= 0.94;
-      velY *= 0.94;
+      rotX += Math.sin(Date.now() * 0.0015) * 0.15 + velX * 0.1;
+      velX *= 0.93;
+      velY *= 0.93;
     }
 
     cube.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-
-    // Draw Burgundy Fluid Splashes
-    ctx.clearRect(0, 0, width, height);
-
-    // Update & Render Fluid Ripples
-    for (let i = ripples.length - 1; i >= 0; i--) {
-      const rip = ripples[i];
-      rip.radius += 1.2;
-      rip.alpha -= 0.02;
-
-      if (rip.alpha <= 0) {
-        ripples.splice(i, 1);
-      } else {
-        ctx.beginPath();
-        ctx.ellipse(rip.x, rip.y, rip.radius, rip.radius * 0.35, 0, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(220, 75, 105, ${rip.alpha * 0.6})`;
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-      }
-    }
-
-    // Update & Render Droplets
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      p.vy += p.gravity;
-      p.vx *= 0.98;
-      p.alpha -= p.decay;
-
-      // Floor impact & ripple
-      const floorY = height - 20;
-      if (p.y >= floorY && p.vy > 0) {
-        p.vy = -p.vy * 0.3;
-        p.vx *= 0.7;
-        p.y = floorY;
-        if (p.radius > 2.2 && ripples.length < 15) {
-          ripples.push({ x: p.x, y: floorY, radius: 2, alpha: p.alpha * 0.8 });
-        }
-      }
-
-      if (p.alpha <= 0) {
-        particles.splice(i, 1);
-      } else {
-        // Draw liquid droplet with soft velvet burgundy glow
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, Math.max(0.5, p.radius), 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${p.alpha})`;
-        ctx.shadowColor = `rgba(168, 36, 66, ${p.alpha * 0.6})`;
-        ctx.shadowBlur = 6;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-
-        // Specular top-left fluid shine
-        if (p.radius > 2 && p.alpha > 0.3) {
-          ctx.beginPath();
-          ctx.arc(p.x - p.radius * 0.3, p.y - p.radius * 0.3, p.radius * 0.3, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha * 0.75})`;
-          ctx.fill();
-        }
-      }
-    }
-
     requestAnimationFrame(animate);
   }
 
