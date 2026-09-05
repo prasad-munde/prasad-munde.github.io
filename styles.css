@@ -353,8 +353,8 @@ body {
    Hero Section (Centered Minimalist)
    ========================================================================== */
 .hero-section {
-  padding: 6.5rem 0 2rem 0;
-  margin-bottom: 2.5rem;
+  padding: 8rem 0 2.5rem 0;
+  margin-bottom: 3rem;
   scroll-margin-top: 5rem;
   display: flex;
   justify-content: center;
@@ -374,26 +374,28 @@ body {
 /* Curved Name Framing the Sphere - Large, Curved & Prominent in Ethereal Demo */
 .hero-curved-wrap {
   width: 100%;
-  max-width: 460px;
-  margin: 0 auto -0.65rem auto;
+  max-width: 500px;
+  margin: 0 auto -2.4rem auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  z-index: 2;
 }
 
 .hero-curved-svg {
   width: 100%;
-  height: 105px;
+  height: 140px;
   overflow: visible;
 }
 
 .hero-curved-text {
   font-family: var(--font-display);
-  font-size: 3.25rem;
+  font-size: 3.65rem;
   font-weight: 700;
   letter-spacing: 0.01em;
   fill: var(--text-main);
-  text-shadow: 0 4px 22px rgba(0, 0, 0, 0.85);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.9);
 }
 
 .hero-name-accent {
@@ -424,8 +426,9 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0.1rem 0 0.45rem 0;
+  margin: 0 auto 0.65rem auto;
   user-select: none;
+  z-index: 1;
 }
 
 .sphere-canvas {
@@ -1423,15 +1426,16 @@ body.draw-mode-active #draw-canvas {
 
 @media (max-width: 480px) {
   .hero-section {
-    padding: 5rem 0 1.5rem 0;
+    padding: 6.25rem 0 1.75rem 0;
   }
   .hero-curved-wrap {
-    max-width: 340px;
+    max-width: 360px;
+    margin: 0 auto -1.65rem auto;
   }
   .hero-curved-svg {
-    height: 85px;
+    height: 105px;
   }
   .hero-curved-text {
-    font-size: 2.3rem;
+    font-size: 2.65rem;
   }
 }
