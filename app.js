@@ -43,7 +43,14 @@ function renderHero(profile) {
   const aboutBioContainer = document.getElementById('about-bio-container');
 
   if (nameEl && profile.name) nameEl.textContent = profile.name;
-  if (curvedNameEl && profile.name) curvedNameEl.textContent = profile.name;
+  if (curvedNameEl && profile.name) {
+    if (profile.name.endsWith('e')) {
+      const prefix = profile.name.slice(0, -1);
+      curvedNameEl.innerHTML = `${prefix}<tspan class="hero-name-accent">e</tspan>`;
+    } else {
+      curvedNameEl.textContent = profile.name;
+    }
+  }
   if (taglineEl && profile.tagline) taglineEl.textContent = profile.tagline;
   if (bioEl && profile.shortBio) bioEl.textContent = profile.shortBio;
 
