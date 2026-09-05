@@ -44,11 +44,17 @@ function renderHero(profile) {
 
   if (nameEl && profile.name) nameEl.textContent = profile.name;
   if (curvedNameEl && profile.name) {
-    if (profile.name.endsWith('e')) {
-      const prefix = profile.name.slice(0, -1);
-      curvedNameEl.innerHTML = `${prefix}<tspan class="hero-name-accent">e</tspan>`;
+    const parts = profile.name.split(' ');
+    if (parts.length === 2) {
+      const first = parts[0];
+      let last = parts[1];
+      let lastHtml = last;
+      if (last.endsWith('e')) {
+        lastHtml = `${last.slice(0, -1)}<tspan class="hero-name-accent">e</tspan>`;
+      }
+      curvedNameEl.innerHTML = `<textPath href="#name-curve" startOffset="48.8%" text-anchor="end">${first}</textPath><textPath href="#name-curve" startOffset="51.2%" text-anchor="start">${lastHtml}</textPath>`;
     } else {
-      curvedNameEl.textContent = profile.name;
+      curvedNameEl.innerHTML = `<textPath href="#name-curve" startOffset="50%" text-anchor="middle">${profile.name}</textPath>`;
     }
   }
   if (taglineEl && profile.tagline) taglineEl.textContent = profile.tagline;
