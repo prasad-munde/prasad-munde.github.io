@@ -25,9 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initSpotlight();
   initProjectFilters();
   initNavObserver();
-  initDrawingCanvas();
   initTechMarquee(data);
   init3DBlackBall();
+  initScrollReveal();
 });
 
 /* ==========================================================================
@@ -96,7 +96,7 @@ function renderExperience(expList) {
   if (!container || !expList || !expList.length) return;
 
   container.innerHTML = expList.map(exp => `
-    <div class="experience-card glass-card">
+    <div class="experience-item">
       <div class="exp-top-row">
         <div class="exp-role-wrap">
           <h3 class="exp-title">${exp.role}</h3>
@@ -134,7 +134,7 @@ function renderProjects(projects) {
   const githubSvg = `<svg class="icon-sm" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>`;
 
   container.innerHTML = projects.map(p => `
-    <div class="project-card glass-card" data-category="${p.category || 'all'}">
+    <div class="project-item" data-category="${p.category || 'all'}">
       <div class="project-header">
         <div class="project-title-wrap">
           <h3 class="project-name">${p.title}</h3>
@@ -180,8 +180,8 @@ function renderSkills(skills) {
   };
 
   container.innerHTML = skills.map(s => `
-    <div class="skill-box glass-card">
-      <div class="skill-box-header">
+    <div class="skill-group">
+      <div class="skill-group-header">
         <i data-lucide="${iconMap[s.category] || 'check'}" class="icon-sm skill-icon"></i>
         <h3 class="skill-category-name">${s.category}</h3>
       </div>
@@ -197,7 +197,7 @@ function renderCertifications(certs) {
   if (!container || !certs || !certs.length) return;
 
   container.innerHTML = certs.map(c => `
-    <div class="cert-card glass-card">
+    <div class="cert-item">
       <div class="cert-icon-wrap">
         <i data-lucide="award" class="icon-md cert-badge-icon"></i>
       </div>
@@ -223,26 +223,26 @@ function renderContact(profile) {
   const instaSvg = `<svg class="icon-sm" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>`;
 
   socialsContainer.innerHTML = `
-    <a href="${profile.socials.github}" target="_blank" rel="noopener noreferrer" class="cta-social-link">
+    <a href="${profile.socials.github}" target="_blank" rel="noopener noreferrer" class="contact-social-link">
       ${githubSvg}
       <span>github.com/prasad-munde</span>
     </a>
-    <a href="${profile.socials.linkedin}" target="_blank" rel="noopener noreferrer" class="cta-social-link">
+    <a href="${profile.socials.linkedin}" target="_blank" rel="noopener noreferrer" class="contact-social-link">
       <i data-lucide="linkedin" class="icon-sm"></i>
       <span>linkedin.com/in/prasadmunde</span>
     </a>
-    <a href="${profile.socials.leetcode}" target="_blank" rel="noopener noreferrer" class="cta-social-link">
+    <a href="${profile.socials.leetcode}" target="_blank" rel="noopener noreferrer" class="contact-social-link">
       <i data-lucide="code" class="icon-sm"></i>
       <span>leetcode.com/_prasadmunde_</span>
     </a>
     ${profile.socials.twitter ? `
-      <a href="${profile.socials.twitter}" target="_blank" rel="noopener noreferrer" class="cta-social-link">
+      <a href="${profile.socials.twitter}" target="_blank" rel="noopener noreferrer" class="contact-social-link">
         ${xSvg}
         <span>x.com/__prsd__</span>
       </a>
     ` : ''}
     ${profile.socials.instagram ? `
-      <a href="${profile.socials.instagram}" target="_blank" rel="noopener noreferrer" class="cta-social-link">
+      <a href="${profile.socials.instagram}" target="_blank" rel="noopener noreferrer" class="contact-social-link">
         ${instaSvg}
         <span>instagram.com/_prasadmunde_</span>
       </a>
@@ -478,180 +478,6 @@ function initNavObserver() {
   window.addEventListener('load', () => updateNavIndicator());
 }
 
-function initDrawingCanvas() {
-  const canvas = document.getElementById('draw-canvas');
-  const toolbar = document.getElementById('draw-toolbar');
-  const toggleBtn = document.getElementById('toggle-draw-btn');
-  const btnLabel = document.getElementById('draw-btn-label');
-  const colorDots = document.querySelectorAll('.color-dot');
-  const sizeBtns = document.querySelectorAll('.size-btn');
-  const eraserBtn = document.getElementById('draw-eraser-btn');
-  const clearBtn = document.getElementById('draw-clear-btn');
-  const downloadBtn = document.getElementById('draw-download-btn');
-
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-
-  let isDrawing = false;
-  let isDrawMode = false;
-  let currentColor = '#2563eb';
-  let currentSize = 3;
-  let isEraser = false;
-  let lastX = 0;
-  let lastY = 0;
-
-  // Offscreen canvas to preserve drawings during resize
-  let offscreenCanvas = document.createElement('canvas');
-  let offscreenCtx = offscreenCanvas.getContext('2d');
-
-  function resizeCanvas() {
-    const dpr = window.devicePixelRatio || 1;
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    if (canvas.width > 0 && canvas.height > 0) {
-      offscreenCanvas.width = canvas.width;
-      offscreenCanvas.height = canvas.height;
-      offscreenCtx.drawImage(canvas, 0, 0);
-    }
-
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    ctx.scale(dpr, dpr);
-
-    if (offscreenCanvas.width > 0 && offscreenCanvas.height > 0) {
-      ctx.drawImage(offscreenCanvas, 0, 0, width, height);
-    }
-  }
-
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-
-  // Toggle Draw Mode
-  toggleBtn?.addEventListener('click', () => {
-    isDrawMode = !isDrawMode;
-    document.body.classList.toggle('draw-mode-active', isDrawMode);
-    toggleBtn.classList.toggle('active', isDrawMode);
-    toolbar?.classList.toggle('active', isDrawMode);
-
-    if (btnLabel) {
-      btnLabel.textContent = isDrawMode ? 'Scratchpad (On)' : 'Scratchpad';
-    }
-    showToast(isDrawMode ? 'Scratchpad Enabled! Doodle anywhere.' : 'Scratchpad Disabled');
-  });
-
-  function getCoords(e) {
-    if (e.touches && e.touches.length > 0) {
-      return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-    }
-    return { x: e.clientX, y: e.clientY };
-  }
-
-  function startDraw(e) {
-    if (!isDrawMode) return;
-    isDrawing = true;
-    const { x, y } = getCoords(e);
-    lastX = x;
-    lastY = y;
-  }
-
-  function draw(e) {
-    if (!isDrawing || !isDrawMode) return;
-    e.preventDefault();
-    const { x, y } = getCoords(e);
-
-    ctx.save();
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-
-    if (isEraser) {
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.lineWidth = currentSize * 5;
-    } else {
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.strokeStyle = currentColor;
-      ctx.lineWidth = currentSize;
-    }
-
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-    ctx.lineTo(x, y);
-    ctx.stroke();
-    ctx.restore();
-
-    lastX = x;
-    lastY = y;
-  }
-
-  function stopDraw() {
-    isDrawing = false;
-  }
-
-  canvas.addEventListener('mousedown', startDraw);
-  canvas.addEventListener('mousemove', draw);
-  window.addEventListener('mouseup', stopDraw);
-
-  canvas.addEventListener('touchstart', startDraw, { passive: false });
-  canvas.addEventListener('touchmove', draw, { passive: false });
-  window.addEventListener('touchend', stopDraw);
-
-  // Colors
-  colorDots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      colorDots.forEach(d => d.classList.remove('active'));
-      dot.classList.add('active');
-      currentColor = dot.getAttribute('data-color') || '#2563eb';
-      isEraser = false;
-      eraserBtn?.classList.remove('active');
-    });
-  });
-
-  // Brush Sizes
-  sizeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      sizeBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentSize = parseInt(btn.getAttribute('data-size') || '3', 10);
-    });
-  });
-
-  // Eraser
-  eraserBtn?.addEventListener('click', () => {
-    isEraser = !isEraser;
-    eraserBtn.classList.toggle('active', isEraser);
-    if (isEraser) {
-      colorDots.forEach(d => d.classList.remove('active'));
-    } else {
-      document.querySelector(`.color-dot[data-color="${currentColor}"]`)?.classList.add('active');
-    }
-  });
-
-  // Clear
-  clearBtn?.addEventListener('click', () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    offscreenCanvas.width = 0;
-    offscreenCanvas.height = 0;
-    showToast('Canvas cleared!');
-  });
-
-  // Download
-  downloadBtn?.addEventListener('click', () => {
-    const link = document.createElement('a');
-    link.download = `prasad-munde-scratchpad-${Date.now()}.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-    showToast('Scratchpad snapshot saved!');
-  });
-}
-
-function showToast(message) {
-  const toast = document.getElementById('toast');
-  if (!toast) return;
-  toast.textContent = message;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2800);
-}
-
 /* ==========================================================================
    Horizontal Infinite Scrolling Bar: Tools & Technologies Marquee
    ========================================================================== */
@@ -688,10 +514,38 @@ function initTechMarquee(data) {
 
   track.innerHTML = seamlessList.map(tech => `
     <div class="marquee-item">
-      <span class="marquee-item-dot"></span>
       <span>${tech}</span>
     </div>
   `).join('');
+}
+
+/* ==========================================================================
+   Smooth Page Load & Scroll Entrance Transitions
+   ========================================================================== */
+function initScrollReveal() {
+  const elements = document.querySelectorAll('.reveal-item, .section-container, .experience-item, .project-item, .skill-group, .cert-item');
+  
+  if (!('IntersectionObserver' in window)) {
+    elements.forEach(el => el.classList.add('revealed'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.08,
+    rootMargin: '0px 0px -30px 0px'
+  });
+
+  elements.forEach(el => {
+    el.classList.add('reveal-item');
+    observer.observe(el);
+  });
 }
 
 /* ==========================================================================
