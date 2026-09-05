@@ -37,11 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
 function renderHero(profile) {
   if (!profile) return;
   const nameEl = document.getElementById('hero-name');
+  const curvedNameEl = document.getElementById('hero-name-curved');
   const taglineEl = document.getElementById('hero-tagline');
   const bioEl = document.getElementById('hero-bio');
   const aboutBioContainer = document.getElementById('about-bio-container');
 
   if (nameEl && profile.name) nameEl.textContent = profile.name;
+  if (curvedNameEl && profile.name) curvedNameEl.textContent = profile.name;
   if (taglineEl && profile.tagline) taglineEl.textContent = profile.tagline;
   if (bioEl && profile.shortBio) bioEl.textContent = profile.shortBio;
 

@@ -89,26 +89,40 @@
     <!-- Hero Section (Centered Minimalist) -->
     <section id="hero" class="hero-section">
       <div class="hero-content">
-        <h1 class="hero-title" id="hero-name">Prasad Munde</h1>
-        <p class="hero-tagline" id="hero-tagline">learning / building / working</p>
+        
+        <!-- Curved Name Header above the Cube -->
+        <div class="hero-curved-wrap">
+          <svg class="hero-curved-svg" viewBox="0 0 340 70" aria-hidden="true">
+            <path id="name-curve" d="M 20,62 Q 170,16 320,62" fill="none" stroke="none" />
+            <text class="hero-curved-text">
+              <textPath href="#name-curve" startOffset="50%" text-anchor="middle" id="hero-name-curved">
+                Prasad Munde
+              </textPath>
+            </text>
+          </svg>
+          <h1 class="sr-only" id="hero-name">Prasad Munde</h1>
+        </div>
 
-        <!-- 3D Interactive Velvet Burgundy Cube with Fluid Splashes -->
+        <!-- 3D Interactive Perfect Solid Velvet Burgundy Cube with Fluid Splashes -->
         <div class="cube-stage-wrapper" id="cube-stage-wrapper">
           <canvas class="cube-splash-canvas" id="cube-splash-canvas"></canvas>
           <div class="cube-scene" id="cube-scene" title="Drag or hover to rotate & splash velvet burgundy water">
             <div class="cube-3d" id="cube-3d">
-              <div class="cube-face cube-face--front"><span>PM</span></div>
-              <div class="cube-face cube-face--back"><span>AI</span></div>
-              <div class="cube-face cube-face--right"><span>SYS</span></div>
-              <div class="cube-face cube-face--left"><span>DEV</span></div>
-              <div class="cube-face cube-face--top"><span>&lt;/&gt;</span></div>
-              <div class="cube-face cube-face--bottom"><span>⚡</span></div>
+              <div class="cube-face cube-face--front"></div>
+              <div class="cube-face cube-face--back"></div>
+              <div class="cube-face cube-face--right"></div>
+              <div class="cube-face cube-face--left"></div>
+              <div class="cube-face cube-face--top"></div>
+              <div class="cube-face cube-face--bottom"></div>
             </div>
           </div>
-          <span class="cube-hint">✦ drag or spin to splash</span>
         </div>
+
+        <!-- Tagline directly below the Cube -->
+        <p class="hero-tagline" id="hero-tagline">learning / building / working</p>
         
-        <p class="hero-bio" id="hero-bio">
+        <!-- Small Justified Intro Bio -->
+        <p class="hero-bio hero-bio--justified" id="hero-bio">
           I love solving problems, building cool things, consuming great ideas, and constantly learning new stuff. Right now, I'm focused on learning and building software around AI and backend systems.
         </p>
 
@@ -131,13 +145,15 @@
       </div>
     </section>
 
-    <!-- Horizontal Infinite Scrolling Bar: Tools & Technologies -->
+    <!-- Horizontal Infinite Scrolling Bar: Tools & Technologies with Faded Divider Lines -->
     <div class="tech-marquee-section" aria-label="Tools & Technologies">
+      <div class="marquee-faded-line top-line"></div>
       <div class="marquee-track-wrap">
         <div class="marquee-track" id="tech-marquee-track">
           <!-- Rendered dynamically from tools and technologies in data.js -->
         </div>
       </div>
+      <div class="marquee-faded-line bottom-line"></div>
     </div>
 
     <!-- About Section -->
